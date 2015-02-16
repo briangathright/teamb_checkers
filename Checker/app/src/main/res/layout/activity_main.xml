@@ -16,9 +16,6 @@
         android:baselineAligned="false">
 
 
-    -->
 
     </LinearLayout>
-
-
-</RelativeLayout>
+    </RelativeLayout>

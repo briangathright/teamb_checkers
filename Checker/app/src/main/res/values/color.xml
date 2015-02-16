@@ -7,5 +7,7 @@
         <color name="grey">#999999</color>
         <color name="dk_grey">#666666</color>
         <color name="white">#ffffffff</color>
+         <color name="Black">#65000000</color>
+
     </resources>
 

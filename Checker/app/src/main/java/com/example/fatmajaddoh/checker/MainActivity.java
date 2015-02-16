@@ -7,11 +7,13 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.app.Activity;
 import android.util.DisplayMetrics;
 import android.content.Context;
 import android.content.Intent;
+
 
 
 public class MainActivity extends Activity {
@@ -25,14 +27,16 @@ public class MainActivity extends Activity {
         populateButtons();
     }
 
+
+
+
+
+
     private void populateButtons() {
 
-
-
-
-           int cellWidth  =60;
-           int cellHeigth  =60;
-
+       int cellWidth  =100;
+       int cellHeigth  =100;
+       //Taking Screen measurement
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int height = displaymetrics.heightPixels;
@@ -45,29 +49,51 @@ public class MainActivity extends Activity {
         Board [][] cellViews= new Board [rows][rows];
         for(int row =0;row<8;row++){
 
-           LinearLayout rowLinearLayout=new LinearLayout(getApplicationContext());
+        LinearLayout rowLinearLayout=new LinearLayout(getApplicationContext());
             rowLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-            Board[] rowArray=new Board[columns];
-          for(int col=0;col<8;col++){
 
-              Board button=new Board(this,row,col);
-              button.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                      TableRow.LayoutParams.MATCH_PARENT,10.0f));
+         Board[] rowArray=new Board[columns];
+          for(int col=0;col<8;col++){
+            Board button=new Board(this,row,col);
+             button.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.MATCH_PARENT,70.0f));
+             //Cell coloring
+              if(row%2==0 )
+              if (col%2==0 )
+               button.setBackgroundColor(getResources().getColor(R.color.Black));
+               else  button.setBackgroundColor(getResources().getColor(R.color.white));
+            else
+             if (col%2!=0)
+                 button.setBackgroundColor(getResources().getColor(R.color.Black));
+              else  button.setBackgroundColor(getResources().getColor(R.color.white));
 
               rowLinearLayout.addView(button);
-
               rowArray[col]=button;
+          // Placing black pieces in the board
+              if (row==0||row==2)
+                 if (col%2==0 )
+              button.setBackgroundResource(R.drawable.checker);
+             if(row==1)
+                if (! (col%2==0 ))
+                      button.setBackgroundResource(R.drawable.checker);
 
-              //button.(getResources().getColor(R.color.green));
+
+            // Placing red pieces in the board
+              if (row==5||row==7)
+                  if (col%2!=0)
+                      button.setBackgroundResource(R.drawable.redpicese);
+
+              if(row==6)
+                  if (col%2==0 )
+                      button.setBackgroundResource(R.drawable.redpicese);
 
 
-    }
+
+          }
             cellViews[row]=rowArray;
-
-           celllayout.addView(rowLinearLayout);
-
-        }}
+            celllayout.addView(rowLinearLayout);
+           }}
 
 
     @Override
