@@ -2,6 +2,7 @@ package com.example.fatmajaddoh.checker;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import android.app.Activity;
 import android.util.DisplayMetrics;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 
 
 
@@ -36,25 +38,26 @@ public class MainActivity extends Activity {
 
        int cellWidth  =100;
        int cellHeigth  =100;
-       //Taking Screen measurement
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        int height = displaymetrics.heightPixels;
-        int Width = displaymetrics.widthPixels;
+       //get screen size
+        Display display =  getWindowManager().getDefaultDisplay();
+        Point size =new Point();
+        display.getSize(size);
+        int height = size.y;
+        int Width = size.x;
         int rows= height/cellHeigth;
-        int columns = Width/cellWidth;
+       int columns = Width/cellWidth;
 
        LinearLayout celllayout=(LinearLayout)findViewById(R.id.cellLayout);
 
         Board [][] cellViews= new Board [rows][rows];
-        for(int row =0;row<8;row++){
+        for(int row =0;row<num_row;row++){
 
         LinearLayout rowLinearLayout=new LinearLayout(getApplicationContext());
             rowLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
 
 
          Board[] rowArray=new Board[columns];
-          for(int col=0;col<8;col++){
+          for(int col=0;col<num_col;col++){
             Board button=new Board(this,row,col);
              button.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
                     TableRow.LayoutParams.MATCH_PARENT,70.0f));
