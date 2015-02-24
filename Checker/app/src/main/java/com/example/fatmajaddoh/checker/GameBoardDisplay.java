@@ -11,14 +11,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-
-
-
-/**
- * Created by fatmajaddoh on 2/21/15.
- */
 public class GameBoardDisplay extends BaseAdapter {
-
 
     Context mContext;
     private int[] boardIds = { //Array of black and white board squares
@@ -72,7 +65,7 @@ public class GameBoardDisplay extends BaseAdapter {
             // Background
             final ImageView squareView =
                     (ImageView) squareContainerView.findViewById(R.id.square_background);
-            squareView.setPadding(-20, -20, -20, -20);
+            squareView.setPadding(0, 0, 0, 0);
             squareView.setImageResource(boardIds[position]);
             //Placing Pieces in The Board
             if (boardIds[position] == R.drawable.darksquare) {
@@ -91,5 +84,10 @@ public class GameBoardDisplay extends BaseAdapter {
 
 
         return squareContainerView;
+
+
     }
+
+
+
 }
