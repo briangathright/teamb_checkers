@@ -31,7 +31,7 @@ public class CurrentBoard {
     }
 
     public void testUpdate(int squareIndex) {
-        squares[squareIndex].setOwner("RED");
+        squares[squareIndex].setOwner("Neither");
         updateDisplay();
     }
 
