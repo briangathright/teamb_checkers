@@ -6,5 +6,11 @@ package com.honigsheroes.checkers.model;
  * and a current square
  */
 public class Piece {
+    public Player belongsTo;
+    public int currentSquare;
+    public Piece (Player belongsTo, int currentSquare){
+        this.belongsTo= belongsTo;
+        this.currentSquare = currentSquare;
+    }
 
 }
