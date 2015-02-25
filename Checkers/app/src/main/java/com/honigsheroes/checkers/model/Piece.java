@@ -1,16 +1,25 @@
 package com.honigsheroes.checkers.model;
 
 /**
- * TODO: Meera implement Piece class.
+ *
  * Pieces have an owner
  * and a current square
  */
 public class Piece {
-    public Player belongsTo;
-    public int currentSquare;
-    public Piece (Player belongsTo, int currentSquare){
+    private Player belongsTo;
+    private int currentSquareIndex;
+    public Piece (Player belongsTo, int currentSquareIndex){
         this.belongsTo= belongsTo;
-        this.currentSquare = currentSquare;
+        this.currentSquareIndex = currentSquareIndex;
     }
+    public Player getBelongsTo(){
+        return belongsTo;
 
+    }
+    public int getCurrentSquareIndex(){
+        return currentSquareIndex;
+    }
+    public void setCurrentSquareIndex(int currentSquareIndex){
+        this.currentSquareIndex = currentSquareIndex;
+    }
 }
