@@ -5,8 +5,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.view.MotionEvent;
 import android.view.View;
 
+import com.honigsheroes.checkers.controller.MainActivity;
 import com.honigsheroes.checkers.model.CurrentBoard;
 import com.honigsheroes.checkers.model.Square;
 
@@ -21,6 +23,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
 
     private Paint paint = new Paint();
     protected Square[] squares;
+    protected int touchedSquareIndex;
 
     public GameBoardDisplay(Square[] squares, Context context) {
         super(context);
@@ -100,6 +103,28 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
 //            topy = boty;
 //            boty += squareHeight;
 //        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        touchedSquareIndex = findSquareIndex(event);
+        return false;
+    }
+
+    public int findSquareIndex(MotionEvent e) {
+        int x = (int) e.getX();
+        int y = (int) e.getY();
+        for(int i = 1; i < squares.length; i++) {
+            Rect rect = squares[i].getRect();
+            if(rect.contains(x, y)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    public int getTouchedSquare() {
+        return touchedSquareIndex;
     }
 
     /**

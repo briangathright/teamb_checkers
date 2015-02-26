@@ -116,14 +116,14 @@ public class MainActivity extends Activity implements CheckersSystem{
     //TODO: touching isn't very accurate atm, half to touch in top half of squares... look to fix
     public boolean onTouchEvent(MotionEvent e) {
         if(stateOfGame.equals(StateOfGame.PLAYING)) {
-            int x = (int) e.getX();
-            int y = (int) e.getY();
-            currentGame.onClick(x, y); //pass the x and y coordinates to game to see which square was clicked etc.
+            int touchedSquareIndex = boardDisplay.getTouchedSquare();
+            currentGame.onClick(touchedSquareIndex); //pass the x and y coordinates to game to see which square was clicked etc.
             //we can use dimensions of rects in 'squares' to figure out which square was touched.
             return true;
         }
         return false;
     }
+
 
     public void onClickStartButton(View view) {
         setContentView(R.layout.activity_nameselect);

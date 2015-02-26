@@ -14,7 +14,7 @@ public class CheckersGame {
         this.board = board;
     }
 
-    public void onClick(int x, int y) {
-        board.findSquareIndex(x, y);
+    public void onClick(int touchedSquareIndex) {
+        board.testUpdate(touchedSquareIndex);
     }
 }

@@ -19,18 +19,8 @@ public class CurrentBoard {
         this.listener = listener;
     }
 
-    public int findSquareIndex(int x, int y) {
-        for(int i = 1; i < squares.length; i++) {
-            Rect rect = squares[i].getRect();
-            if(rect.contains(x, y)) {
-                testUpdate(i);
-                return i;
-            }
-        }
-        return 0;
-    }
-
     public void testUpdate(int squareIndex) {
+        if(squareIndex==0) { return;}
         squares[squareIndex].setOwner("Neither");
         updateDisplay();
     }
