@@ -26,4 +26,6 @@ public class Constants {
     public enum PlayerColor {
         BLACK, RED
     }
+
+    public static final int UNUSED_SQUARE = 0;
 }

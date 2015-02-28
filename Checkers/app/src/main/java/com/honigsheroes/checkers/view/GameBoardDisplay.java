@@ -8,8 +8,8 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.honigsheroes.checkers.controller.MainActivity;
-import com.honigsheroes.checkers.model.CurrentBoard;
+import com.honigsheroes.checkers.Constants;
+import com.honigsheroes.checkers.model.Move;
 import com.honigsheroes.checkers.model.Square;
 
 /**
@@ -19,11 +19,11 @@ import com.honigsheroes.checkers.model.Square;
  */
 public class GameBoardDisplay extends View implements GameBoardDisplayListener {
 
-    private boolean boardDrawn = false;
-
-    private Paint paint = new Paint();
     protected Square[] squares;
     protected int touchedSquareIndex;
+    private boolean boardDrawn = false;
+    private Paint paint = new Paint();
+    private Canvas canvas;
 
     public GameBoardDisplay(Square[] squares, Context context) {
         super(context);
@@ -32,77 +32,44 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if(!boardDrawn) { // so we only draw the board (background) once
+        this.canvas = canvas;
+        if (!boardDrawn) { // so we only draw the board (background) once
             drawBoard(canvas);
             drawPieces(canvas);
-        }
-        else {
+        } else {
             drawPieces(canvas); //pieces are redrawn every time a move is made.
         }
     }
 
     private void drawPieces(Canvas canvas) {
-        for(int i = 1; i < squares.length; i++) {
-            if(squares[i].owner.equals("BLACK")) {
-                paint.setColor(Color.DKGRAY);
-                canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), squares[i].getRect().width()/3, paint);
-            }
-            else if(squares[i].owner.equals("RED")) {
-                paint.setColor(Color.RED);
-                canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), squares[i].getRect().width()/3, paint);
+        for (int i = 1; i < squares.length; i++) {
+            if (squares[i].getPiece() != null) {
+                if (squares[i].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.BLACK)) {
+                    paint.setColor(Color.DKGRAY);
+                    canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), squares[i].getRect().width() / 3, paint);
+                } else if (squares[i].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.RED)) {
+                    paint.setColor(Color.RED);
+                    canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), squares[i].getRect().width() / 3, paint);
+                }
             }
         }
     }
 
+
     public void drawBoard(Canvas canvas) {
-        int squareWidth = getWidth()/10;
-        int squareHeight = getHeight()/10;
+        int squareWidth = getWidth() / 10;
+        int squareHeight = getHeight() / 10;
 
         paint.setColor(Color.DKGRAY);
         canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
 
         paint.setColor(Color.RED);
-        canvas.drawRect(squareWidth, squares[1].getRect().top, squareWidth*9, squares[32].getRect().bottom, paint);
+        canvas.drawRect(squareWidth, squares[1].getRect().top, squareWidth * 9, squares[32].getRect().bottom, paint);
 
         paint.setColor(Color.BLACK);
-        for(int i = 1; i < squares.length; i++) {
+        for (int i = 1; i < squares.length; i++) {
             canvas.drawRect(squares[i].getRect(), paint);
         }
-
-//        // all of this could/should be pulled out to the controller / main activity.
-//        int leftx = squareWidth * 2;
-//        int rightx = squareWidth * 3;
-//        int topy = squareHeight;
-//        int boty = squareHeight * 2;
-//        int index = 1;
-//
-//        for (int row = 0; row < 8; row++) {
-//            if(row%2 == 0) {
-//                leftx = squareWidth * 2;
-//                rightx = squareWidth * 3;
-//            }
-//            else {
-//                leftx = squareWidth;
-//                rightx = squareWidth * 2;
-//            }
-//            for (int column = 0; column < 4; column++) {
-//                if(row < 3) {
-//                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), "BLACK");
-//                }
-//                else if (row > 4) {
-//                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), "RED");
-//                }
-//                else {
-//                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), "None");
-//                }
-//                canvas.drawRect(squares[index].getRect(), paint);
-//                leftx += squareWidth * 2;
-//                rightx += squareWidth * 2;
-//                index++;
-//            }
-//            topy = boty;
-//            boty += squareHeight;
-//        }
     }
 
     @Override
@@ -114,13 +81,13 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
     public int findSquareIndex(MotionEvent e) {
         int x = (int) e.getX();
         int y = (int) e.getY();
-        for(int i = 1; i < squares.length; i++) {
+        for (int i = 1; i < squares.length; i++) {
             Rect rect = squares[i].getRect();
-            if(rect.contains(x, y)) {
+            if (rect.contains(x, y)) {
                 return i;
             }
         }
-        return 0;
+        return Constants.UNUSED_SQUARE;
     }
 
     public int getTouchedSquare() {
@@ -135,4 +102,28 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
     public void update() {
         invalidate();
     }
+
+    @Override
+    public void testUpdate(Move move) {
+        this.updatePieces(move);
+    }
+
+    private void updatePieces(Move move) {
+        Rect rect = squares[move.getStartSquareIndex()].getRect();
+        paint.setColor(Color.DKGRAY);
+//        canvas.drawRect(rect.left,rect.top,rect.right,rect.bottom, paint);
+        try {
+            if (squares[move.getStartSquareIndex()].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.BLACK)) {
+                paint.setColor(Color.DKGRAY);
+                canvas.drawCircle(squares[move.getTargetSquareIndex()].getRect().exactCenterX(), squares[move.getTargetSquareIndex()].getRect().exactCenterY(), squares[move.getTargetSquareIndex()].getRect().width() / 3, paint);
+            } else if (squares[move.getStartSquareIndex()].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.RED)) {
+                paint.setColor(Color.RED);
+                canvas.drawCircle(squares[move.getTargetSquareIndex()].getRect().exactCenterX(), squares[move.getTargetSquareIndex()].getRect().exactCenterY(), squares[move.getTargetSquareIndex()].getRect().width() / 3, paint);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        update();
+    }
+
 }

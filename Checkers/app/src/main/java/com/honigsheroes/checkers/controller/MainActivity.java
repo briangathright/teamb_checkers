@@ -13,6 +13,7 @@ import com.honigsheroes.checkers.R;
 import com.honigsheroes.checkers.model.CheckersGame;
 import com.honigsheroes.checkers.Constants.*;
 import com.honigsheroes.checkers.model.CurrentBoard;
+import com.honigsheroes.checkers.model.Piece;
 import com.honigsheroes.checkers.model.Player;
 import com.honigsheroes.checkers.model.Square;
 import com.honigsheroes.checkers.view.GameBoardDisplay;
@@ -25,12 +26,15 @@ public class MainActivity extends Activity implements CheckersSystem{
     protected StateOfGame stateOfGame; //status of currentGame
     protected CheckersGame currentGame; //the model
     protected GameBoardDisplay boardDisplay;
-    protected String playerOneName;
-    protected String playerTwoName;
+    protected Player playerOne;
+    protected Player playerTwo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        playerOne = new Player(PlayerColor.BLACK);
+        playerTwo = new Player(PlayerColor.RED);
 
         // get the width and height of the screen. Create initial set of squares for board
         Display display = getWindowManager().getDefaultDisplay();
@@ -59,13 +63,13 @@ public class MainActivity extends Activity implements CheckersSystem{
             }
             for (int column = 0; column < 4; column++) {
                 if(row < 3) {
-                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), "BLACK");
+                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerOne, index));
                 }
                 else if (row > 4) {
-                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), "RED");
+                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerTwo,index));
                 }
                 else {
-                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), "None");
+                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), null);
                 }
                 leftx += squareWidth * 2;
                 rightx += squareWidth * 2;
@@ -115,10 +119,11 @@ public class MainActivity extends Activity implements CheckersSystem{
     /** Passes touch event coordinates to the currentGame, if there is one*/
     //TODO: touching isn't very accurate atm, half to touch in top half of squares... look to fix
     public boolean onTouchEvent(MotionEvent e) {
-        if(stateOfGame.equals(StateOfGame.PLAYING)) {
+        if(stateOfGame.equals(StateOfGame.PLAYING) && e.getAction()==MotionEvent.ACTION_UP) {
             int touchedSquareIndex = boardDisplay.getTouchedSquare();
             currentGame.onClick(touchedSquareIndex); //pass the x and y coordinates to game to see which square was clicked etc.
             //we can use dimensions of rects in 'squares' to figure out which square was touched.
+            System.out.println("*******"+touchedSquareIndex);
             return true;
         }
         return false;
@@ -133,8 +138,8 @@ public class MainActivity extends Activity implements CheckersSystem{
         EditText player1ET = (EditText) findViewById(R.id.player1EditText);
         EditText player2ET = (EditText) findViewById(R.id.player2EditText);
 
-        playerOneName = player1ET.getText().toString();
-        playerTwoName = player2ET.getText().toString();
+        String playerOneName = player1ET.getText().toString();
+        String playerTwoName = player2ET.getText().toString();
 
         if(playerOneName.equals("")) {
             playerOneName = "Player 1";
@@ -142,6 +147,9 @@ public class MainActivity extends Activity implements CheckersSystem{
         if(playerTwoName.equals("")) {
             playerTwoName = "Player 2";
         }
+
+        playerOne.setName(playerOneName);
+        playerTwo.setName(playerTwoName);
 
         startGame();
     }

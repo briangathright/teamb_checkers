@@ -7,14 +7,29 @@ package com.honigsheroes.checkers.model;
 public class Move {
     private int startSquareIndex;
     private int targetSquareIndex;
+
+    public Move(int startSquareIndex) {
+        this.startSquareIndex = startSquareIndex;
+    }
+
     public Move (int startSquareIndex, int targetSquareIndex){
         this.startSquareIndex = startSquareIndex;
         this.targetSquareIndex = targetSquareIndex;
     }
-    public int getStartSquareIndex(){
+
+    public int getStartSquareIndex() {
         return startSquareIndex;
     }
-    public int getTargetSquareIndex(){
+
+    public void setStartSquareIndex(int startSquareIndex) {
+        this.startSquareIndex = startSquareIndex;
+    }
+
+    public int getTargetSquareIndex() {
         return targetSquareIndex;
+    }
+
+    public void setTargetSquareIndex(int targetSquareIndex) {
+        this.targetSquareIndex = targetSquareIndex;
     }
 }

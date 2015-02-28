@@ -11,33 +11,35 @@ import android.graphics.Rect;
 public class Square {
     private Rect rect;
     private Piece piece;
-    public String owner; //temporary for testing display
+    private Player owner;
 
-    //temporary constructor for testing display
-    public Square(Rect r, String owner) {
-        rect = r;
-        this.owner = owner;
-    }
 
     public Square(Rect r, Piece p) {
         rect = r;
         piece = p;
     }
 
-    //temporary for testing display
-    public void setOwner(String string) {
-        this.owner = string;
+    public Player getOwner() {
+        return owner;
     }
 
-    public void setPiece(Piece piece) {
-        this.piece = piece;
+    public void setOwner(Player owner) {
+        this.owner = owner;
     }
 
     public Rect getRect() {
         return rect;
     }
 
+    public void setRect(Rect rect) {
+        this.rect = rect;
+    }
+
     public Piece getPiece() {
         return piece;
+    }
+
+    public void setPiece(Piece piece) {
+        this.piece = piece;
     }
 }
