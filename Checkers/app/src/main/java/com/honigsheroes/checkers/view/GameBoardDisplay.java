@@ -103,27 +103,27 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         invalidate();
     }
 
-    @Override
-    public void testUpdate(Move move) {
-        this.updatePieces(move);
-    }
+//    @Override
+//    public void testUpdate(Move move) {
+//        this.updatePieces(move);
+//    }
 
-    private void updatePieces(Move move) {
-        Rect rect = squares[move.getStartSquareIndex()].getRect();
-        paint.setColor(Color.DKGRAY);
-//        canvas.drawRect(rect.left,rect.top,rect.right,rect.bottom, paint);
-        try {
-            if (squares[move.getStartSquareIndex()].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.BLACK)) {
-                paint.setColor(Color.DKGRAY);
-                canvas.drawCircle(squares[move.getTargetSquareIndex()].getRect().exactCenterX(), squares[move.getTargetSquareIndex()].getRect().exactCenterY(), squares[move.getTargetSquareIndex()].getRect().width() / 3, paint);
-            } else if (squares[move.getStartSquareIndex()].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.RED)) {
-                paint.setColor(Color.RED);
-                canvas.drawCircle(squares[move.getTargetSquareIndex()].getRect().exactCenterX(), squares[move.getTargetSquareIndex()].getRect().exactCenterY(), squares[move.getTargetSquareIndex()].getRect().width() / 3, paint);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        update();
-    }
+//    private void updatePieces(Move move) {
+//        Rect rect = squares[move.getStartSquareIndex()].getRect();
+//        paint.setColor(Color.DKGRAY);
+////        canvas.drawRect(rect.left,rect.top,rect.right,rect.bottom, paint);
+//        try {
+//            if (squares[move.getStartSquareIndex()].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.BLACK)) {
+//                paint.setColor(Color.DKGRAY);
+//                canvas.drawCircle(squares[move.getTargetSquareIndex()].getRect().exactCenterX(), squares[move.getTargetSquareIndex()].getRect().exactCenterY(), squares[move.getTargetSquareIndex()].getRect().width() / 3, paint);
+//            } else if (squares[move.getStartSquareIndex()].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.RED)) {
+//                paint.setColor(Color.RED);
+//                canvas.drawCircle(squares[move.getTargetSquareIndex()].getRect().exactCenterX(), squares[move.getTargetSquareIndex()].getRect().exactCenterY(), squares[move.getTargetSquareIndex()].getRect().width() / 3, paint);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        update();
+//    }
 
 }

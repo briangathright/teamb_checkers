@@ -19,20 +19,20 @@ public class CurrentBoard {
         this.listener = listener;
     }
 
-    public void testUpdate(int squareIndex) {
-        if(squareIndex==0) {
-            return;
-        }
-        updateDisplay();
-    }
+//    public void testUpdate(int squareIndex) {
+//        if(squareIndex==0) {
+//            return;
+//        }
+//        updateDisplay();
+//    }
 
     public void updateDisplay() { //use getters and setters
         listener.update();
     }
 
-    public void testUpdate(Move move){
-        listener.testUpdate(move);
-    }
+//    update void testUpdate(Move move){
+//        listener.testUpdate(move);
+//    }
 
     public Square[] getSquares() {
         return squares;

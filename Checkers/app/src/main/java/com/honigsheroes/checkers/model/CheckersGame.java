@@ -1,6 +1,7 @@
 package com.honigsheroes.checkers.model;
 
-
+import com.honigsheroes.checkers.Constants;
+import com.honigsheroes.checkers.Constants.*;
 /**
  * TODO: Thiago implement CheckersGame class
  * The model for the checker game.
@@ -10,24 +11,52 @@ public class CheckersGame {
 
     private CurrentBoard board;
     private Move move;
+    private int firstSquareIndex = 0;
+    private int secondSquareIndex = 0;
 
     public CheckersGame(CurrentBoard board) {
         this.board = board;
     }
 
     public void onClick(int touchedSquareIndex) {
-        if(getMove()==null){
-            this.move = new Move(touchedSquareIndex);
+        //most of this logic should probably be moved to the currentboard
+        //I think just create the move here and pass that to board to do actual moving.
+        if(touchedSquareIndex == Constants.UNUSED_SQUARE) {
+            return;
         }
-        else{
-            getMove().setTargetSquareIndex(touchedSquareIndex);
-            Piece piece = getBoard().getSquares()[getMove().getStartSquareIndex()].getPiece();
-            piece.setCurrentSquareIndex(getMove().getTargetSquareIndex());
-            System.out.println("Current position: "+piece.getCurrentSquareIndex());
-            board.testUpdate(move);
-            move = null;
+        if(firstSquareIndex == 0 && board.getSquares()[touchedSquareIndex].getPiece() != null) {
+            firstSquareIndex = touchedSquareIndex;
+            return;
         }
-        getBoard().testUpdate(touchedSquareIndex);
+        else {
+            secondSquareIndex = touchedSquareIndex;
+            if(firstSquareIndex == secondSquareIndex) {
+                return;
+            }
+            if(firstSquareIndex == 0 || secondSquareIndex == 0) {
+                return;
+            }
+            if (board.getSquares()[secondSquareIndex].getPiece() == null) {
+                board.getSquares()[secondSquareIndex].setPiece(board.getSquares()[firstSquareIndex].getPiece());
+                board.getSquares()[firstSquareIndex].setPiece(null);
+            }
+            firstSquareIndex = 0;
+            secondSquareIndex = 0;
+            board.updateDisplay();
+        }
+//        if(getMove()==null){
+//            this.move = new Move(touchedSquareIndex);
+//        }
+//        else{
+//            getMove().setTargetSquareIndex(touchedSquareIndex);
+//            Piece piece = getBoard().getSquares()[getMove().getStartSquareIndex()].getPiece();
+//            board.getSquares()[getMove().getStartSquareIndex()].getPiece().setCurrentSquareIndex(getMove().getTargetSquareIndex());
+//            System.out.println("Current position: "+piece.getCurrentSquareIndex());
+//            board.updateDisplay();
+//            move = null;
+//        }
+//        board.updateDisplay();
+//        //getBoard().testUpdate(touchedSquareIndex);
     }
 
     public CurrentBoard getBoard() {
