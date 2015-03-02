@@ -11,6 +11,7 @@ public class Square {
     private Rect rect;
     private Piece piece;
     private Player owner;
+    private boolean isActive = false;
 
 
     public Square(Rect r, Piece p) {
@@ -40,5 +41,12 @@ public class Square {
 
     public void setPiece(Piece piece) {
         this.piece = piece;
+    }
+
+    public boolean getActive() {
+        return isActive;
+    }
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
     }
 }

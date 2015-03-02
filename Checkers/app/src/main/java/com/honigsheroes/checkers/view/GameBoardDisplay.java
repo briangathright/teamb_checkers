@@ -78,7 +78,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
 
         for (int i = 1; i < squares.length; i++) {
 
-            if (i == touchedSquareIndex) {
+            if (squares[i].getActive()) {
                 paint.setColor(Color.YELLOW);
             }
             else{
@@ -108,7 +108,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         touchedSquareIndex = findSquareIndex(event);
-        invalidate();
+        //invalidate();
         return false;
     }
 

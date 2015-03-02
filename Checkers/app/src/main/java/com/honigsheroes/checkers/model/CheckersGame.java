@@ -34,6 +34,9 @@ public class CheckersGame{
         //most of this logic should probably be moved to the currentboard
         //I think just create the move here and pass that to board to do actual moving.
         if(touchedSquareIndex == Constants.UNUSED_SQUARE) {
+            if(firstSquareIndex != Constants.UNUSED_SQUARE) {
+                board.getSquares()[firstSquareIndex].setActive(false);
+            }
             firstSquareIndex = Constants.UNUSED_SQUARE;
             secondSquareIndex = Constants.UNUSED_SQUARE;
             board.updateDisplay();
@@ -41,24 +44,28 @@ public class CheckersGame{
         }
         if(firstSquareIndex == Constants.UNUSED_SQUARE && board.getSquares()[touchedSquareIndex].getPiece() != null&& board.getSquares()[touchedSquareIndex].getPiece().getBelongsTo().getColor()==playerTurn) {
             firstSquareIndex = touchedSquareIndex;
-
+            board.getSquares()[firstSquareIndex].setActive(true);
+            board.updateDisplay();
             return;
         }
         else {
 
             secondSquareIndex = touchedSquareIndex;
 
-            if(firstSquareIndex == secondSquareIndex) {
-                board.updateDisplay();
-                firstSquareIndex = Constants.UNUSED_SQUARE;
-                secondSquareIndex = Constants.UNUSED_SQUARE;
-                return;
-            }
             if(firstSquareIndex == Constants.UNUSED_SQUARE) {
                 board.updateDisplay();
                 secondSquareIndex = Constants.UNUSED_SQUARE;
                 return;
             }
+
+            if(firstSquareIndex == secondSquareIndex) {
+                board.getSquares()[firstSquareIndex].setActive(false);
+                board.updateDisplay();
+                firstSquareIndex = Constants.UNUSED_SQUARE;
+                secondSquareIndex = Constants.UNUSED_SQUARE;
+                return;
+            }
+
             }
 
             if (board.getSquares()[secondSquareIndex].getPiece() == null) {
@@ -71,7 +78,7 @@ public class CheckersGame{
                 }
                 }
 
-
+            board.getSquares()[firstSquareIndex].setActive(false);
             firstSquareIndex = Constants.UNUSED_SQUARE;
             secondSquareIndex = Constants.UNUSED_SQUARE;
             board.updateDisplay();
