@@ -9,7 +9,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.honigsheroes.checkers.Constants;
+import com.honigsheroes.checkers.model.CheckersGame;
 import com.honigsheroes.checkers.model.Move;
+import com.honigsheroes.checkers.model.Player;
 import com.honigsheroes.checkers.model.Square;
 
 /**
@@ -24,9 +26,14 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
     private boolean boardDrawn = false;
     private Paint paint = new Paint();
     private Canvas canvas;
+    private Player playerOne;
+    private Player playerTwo;
 
-    public GameBoardDisplay(Square[] squares, Context context) {
+    public GameBoardDisplay(Square[] squares, Context context, Player playerOne, Player playerTwo) {
         super(context);
+        this.playerOne = playerOne;
+        this.playerTwo= playerTwo;
+
         this.squares = squares;
     }
 
@@ -44,6 +51,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
     private void drawPieces(Canvas canvas) {
         for (int i = 1; i < squares.length; i++) {
             if (squares[i].getPiece() != null) {
+
                 if (squares[i].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.BLACK)) {
                     paint.setColor(Color.DKGRAY);
                     canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), squares[i].getRect().width() / 3, paint);
@@ -60,7 +68,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         int squareWidth = getWidth() / 10;
         int squareHeight = getHeight() / 10;
 
-        paint.setColor(Color.DKGRAY);
+       paint.setColor(Color.DKGRAY);
         canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
 
         paint.setColor(Color.RED);
@@ -68,13 +76,25 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
 
         paint.setColor(Color.BLACK);
         for (int i = 1; i < squares.length; i++) {
+
+            if (i == touchedSquareIndex) {
+                paint.setColor(Color.YELLOW);
+            }
+            else{
+                paint.setColor(Color.BLACK);
+            }
             canvas.drawRect(squares[i].getRect(), paint);
         }
+        paint.setColor(Color.GREEN);
+        paint.setTextSize(56);
+        canvas.drawText(playerOne.getName(),squareWidth,squares[1].getRect().top,paint);
+        canvas.drawText(playerTwo.getName(),squareWidth,squares[30].getRect().top + (squares[1].getRect().bottom),paint);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         touchedSquareIndex = findSquareIndex(event);
+        invalidate();
         return false;
     }
 
@@ -100,7 +120,9 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
      */
     @Override
     public void update() {
+        touchedSquareIndex=0;
         invalidate();
+
     }
 
 //    @Override

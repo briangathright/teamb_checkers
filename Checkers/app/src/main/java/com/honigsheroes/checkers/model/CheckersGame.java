@@ -13,7 +13,13 @@ public class CheckersGame {
     private Move move;
     private int firstSquareIndex = 0;
     private int secondSquareIndex = 0;
-
+    private int activeSquareIndex = -1;
+    public int getHilight () {
+        return activeSquareIndex;
+    }
+    public void setHilight(int index){
+        this.activeSquareIndex = index;
+    }
     public CheckersGame(CurrentBoard board) {
         this.board = board;
     }
@@ -26,6 +32,7 @@ public class CheckersGame {
         }
         if(firstSquareIndex == 0 && board.getSquares()[touchedSquareIndex].getPiece() != null) {
             firstSquareIndex = touchedSquareIndex;
+            setHilight(firstSquareIndex);
             return;
         }
         else {
@@ -40,6 +47,7 @@ public class CheckersGame {
                 board.getSquares()[secondSquareIndex].setPiece(board.getSquares()[firstSquareIndex].getPiece());
                 board.getSquares()[firstSquareIndex].setPiece(null);
             }
+            setHilight (-1);
             firstSquareIndex = 0;
             secondSquareIndex = 0;
             board.updateDisplay();

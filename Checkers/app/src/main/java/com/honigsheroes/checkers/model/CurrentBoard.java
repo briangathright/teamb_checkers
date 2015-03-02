@@ -13,6 +13,7 @@ import com.honigsheroes.checkers.view.GameBoardDisplayListener;
 public class CurrentBoard {
     private GameBoardDisplayListener listener;
     private Square[] squares;
+    
 
     public CurrentBoard(Square[] squares, GameBoardDisplayListener listener) {
         this.squares = squares;

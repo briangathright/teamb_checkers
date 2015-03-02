@@ -104,7 +104,7 @@ public class MainActivity extends Activity implements CheckersSystem{
             //other initialization stuff
             //TODO: create CheckerGame instance here, wire model to view
 
-            boardDisplay = new GameBoardDisplay(squares, this);
+            boardDisplay = new GameBoardDisplay(squares, this,playerOne, playerTwo);
             CurrentBoard cboard = new CurrentBoard(squares, boardDisplay);
             //Player playerOne = new Player(playerOneName, PlayerColor.BLACK);
             //Player playerTwo = new Player(playerTwoName, PlayerColor.RED);
