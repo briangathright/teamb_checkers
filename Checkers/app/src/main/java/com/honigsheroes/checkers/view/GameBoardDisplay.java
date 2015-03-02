@@ -87,7 +87,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
             canvas.drawRect(squares[i].getRect(), paint);
         }
         paint.setColor(Color.GREEN);
-        paint.setTextSize(56);
+        paint.setTextSize(squares[0].getRect().height()/2);
         paint.setTextAlign(Paint.Align.CENTER);
         Rect r = new Rect();
         paint.getTextBounds(playerOne.getName(),0,playerOne.getName().length(),r);
