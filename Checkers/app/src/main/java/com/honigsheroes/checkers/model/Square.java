@@ -5,8 +5,7 @@ import android.graphics.Rect;
 /**
  * A square is one square on the board.
  * Every square is defined by a rect (its coordinates on the view)
- * and a piece. If no piece is on that square then it has a null.
- * TODO: fix class once Piece is implemented
+ * and a piece. If no piece is on that square then it has a null
  */
 public class Square {
     private Rect rect;

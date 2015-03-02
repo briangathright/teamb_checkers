@@ -1,26 +1,32 @@
 package com.honigsheroes.checkers.model;
 
+import android.app.IntentService;
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Looper;
+import android.widget.Toast;
+
 import com.honigsheroes.checkers.Constants;
 import com.honigsheroes.checkers.Constants.*;
 /**
- * TODO: Thiago implement CheckersGame class
  * The model for the checker game.
  * A checkers game has 2 players, and a current board.
  */
-public class CheckersGame {
+public class CheckersGame{
+
+
 
     private CurrentBoard board;
     private Move move;
-    private int firstSquareIndex = 0;
-    private int secondSquareIndex = 0;
-    private int activeSquareIndex = -1;
-    public int getHilight () {
-        return activeSquareIndex;
-    }
-    public void setHilight(int index){
-        this.activeSquareIndex = index;
-    }
+    private int firstSquareIndex = -1;
+    private int secondSquareIndex = -1;
+    private PlayerColor playerTurn= PlayerColor.BLACK;
+
     public CheckersGame(CurrentBoard board) {
+
         this.board = board;
     }
 
@@ -28,44 +34,51 @@ public class CheckersGame {
         //most of this logic should probably be moved to the currentboard
         //I think just create the move here and pass that to board to do actual moving.
         if(touchedSquareIndex == Constants.UNUSED_SQUARE) {
+            firstSquareIndex = Constants.UNUSED_SQUARE;
+            secondSquareIndex = Constants.UNUSED_SQUARE;
+            board.updateDisplay();
             return;
         }
-        if(firstSquareIndex == 0 && board.getSquares()[touchedSquareIndex].getPiece() != null) {
+        if(firstSquareIndex == Constants.UNUSED_SQUARE && board.getSquares()[touchedSquareIndex].getPiece() != null&& board.getSquares()[touchedSquareIndex].getPiece().getBelongsTo().getColor()==playerTurn) {
             firstSquareIndex = touchedSquareIndex;
-            setHilight(firstSquareIndex);
+
             return;
         }
         else {
+
             secondSquareIndex = touchedSquareIndex;
+
             if(firstSquareIndex == secondSquareIndex) {
+                board.updateDisplay();
+                firstSquareIndex = Constants.UNUSED_SQUARE;
+                secondSquareIndex = Constants.UNUSED_SQUARE;
                 return;
             }
-            if(firstSquareIndex == 0 || secondSquareIndex == 0) {
+            if(firstSquareIndex == Constants.UNUSED_SQUARE) {
+                board.updateDisplay();
+                secondSquareIndex = Constants.UNUSED_SQUARE;
                 return;
             }
+            }
+
             if (board.getSquares()[secondSquareIndex].getPiece() == null) {
                 board.getSquares()[secondSquareIndex].setPiece(board.getSquares()[firstSquareIndex].getPiece());
                 board.getSquares()[firstSquareIndex].setPiece(null);
-            }
-            setHilight (-1);
-            firstSquareIndex = 0;
-            secondSquareIndex = 0;
+                if (playerTurn == PlayerColor.BLACK) {
+                    playerTurn = PlayerColor.RED;
+                }else{
+                    playerTurn = PlayerColor.BLACK;
+                }
+                }
+
+
+            firstSquareIndex = Constants.UNUSED_SQUARE;
+            secondSquareIndex = Constants.UNUSED_SQUARE;
             board.updateDisplay();
         }
-//        if(getMove()==null){
-//            this.move = new Move(touchedSquareIndex);
-//        }
-//        else{
-//            getMove().setTargetSquareIndex(touchedSquareIndex);
-//            Piece piece = getBoard().getSquares()[getMove().getStartSquareIndex()].getPiece();
-//            board.getSquares()[getMove().getStartSquareIndex()].getPiece().setCurrentSquareIndex(getMove().getTargetSquareIndex());
-//            System.out.println("Current position: "+piece.getCurrentSquareIndex());
-//            board.updateDisplay();
-//            move = null;
-//        }
-//        board.updateDisplay();
-//        //getBoard().testUpdate(touchedSquareIndex);
-    }
+
+
+
 
     public CurrentBoard getBoard() {
         return board;
@@ -82,4 +95,6 @@ public class CheckersGame {
     public void setMove(Move move) {
         this.move = move;
     }
+
+
 }

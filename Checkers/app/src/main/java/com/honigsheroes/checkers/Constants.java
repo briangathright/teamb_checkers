@@ -27,5 +27,5 @@ public class Constants {
         BLACK, RED
     }
 
-    public static final int UNUSED_SQUARE = 0;
+    public static final int UNUSED_SQUARE = -1;
 }

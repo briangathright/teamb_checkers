@@ -5,7 +5,6 @@ import android.graphics.Rect;
 import com.honigsheroes.checkers.view.GameBoardDisplayListener;
 
 /**
- * TODO: Thiago implement GameBoard class
  * The board (internal data structure) for the checkers game.
  * Logs position of pieces and checks to see if they can move etc.
  * notifies view to update whenever an actual change occurs

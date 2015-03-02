@@ -9,5 +9,4 @@ import com.honigsheroes.checkers.model.Move;
 public interface GameBoardDisplayListener {
     void update();
 
-   // void testUpdate(Move move);
 }

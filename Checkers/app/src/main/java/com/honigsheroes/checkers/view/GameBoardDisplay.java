@@ -75,6 +75,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         canvas.drawRect(squareWidth, squares[1].getRect().top, squareWidth * 9, squares[32].getRect().bottom, paint);
 
         paint.setColor(Color.BLACK);
+
         for (int i = 1; i < squares.length; i++) {
 
             if (i == touchedSquareIndex) {
@@ -87,8 +88,21 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         }
         paint.setColor(Color.GREEN);
         paint.setTextSize(56);
-        canvas.drawText(playerOne.getName(),squareWidth,squares[1].getRect().top,paint);
-        canvas.drawText(playerTwo.getName(),squareWidth,squares[30].getRect().top + (squares[1].getRect().bottom),paint);
+        paint.setTextAlign(Paint.Align.CENTER);
+        Rect r = new Rect();
+        paint.getTextBounds(playerOne.getName(),0,playerOne.getName().length(),r);
+        canvas.drawText(playerOne.getName(), squares[2].getRect().right , squares[1].getRect().height()/2 + r.height()/2, paint);
+        r = new Rect();
+        paint.getTextBounds(playerTwo.getName(),0,playerTwo.getName().length(),r);
+        canvas.drawText(playerTwo.getName(), squares[2].getRect().right , squares[1].getRect().height()*9+ squares[1].getRect().height()/2 + r.height()/2, paint);
+        paint.setColor(Color.CYAN);
+        canvas.drawRect(squares[0].getRect(), paint);
+        paint.setColor(Color.RED);
+
+
+        paint.getTextBounds("X",0, "X".length(),r);
+        canvas.drawText("X",squares[0].getRect().centerX(),squares[0].getRect().height()/2 +r.height()/2,paint);
+
     }
 
     @Override
@@ -101,7 +115,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
     public int findSquareIndex(MotionEvent e) {
         int x = (int) e.getX();
         int y = (int) e.getY();
-        for (int i = 1; i < squares.length; i++) {
+        for (int i = 0; i < squares.length; i++) {
             Rect rect = squares[i].getRect();
             if (rect.contains(x, y)) {
                 return i;
@@ -120,32 +134,12 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
      */
     @Override
     public void update() {
-        touchedSquareIndex=0;
+
+        touchedSquareIndex=Constants.UNUSED_SQUARE;
+
         invalidate();
 
     }
 
-//    @Override
-//    public void testUpdate(Move move) {
-//        this.updatePieces(move);
-//    }
-
-//    private void updatePieces(Move move) {
-//        Rect rect = squares[move.getStartSquareIndex()].getRect();
-//        paint.setColor(Color.DKGRAY);
-////        canvas.drawRect(rect.left,rect.top,rect.right,rect.bottom, paint);
-//        try {
-//            if (squares[move.getStartSquareIndex()].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.BLACK)) {
-//                paint.setColor(Color.DKGRAY);
-//                canvas.drawCircle(squares[move.getTargetSquareIndex()].getRect().exactCenterX(), squares[move.getTargetSquareIndex()].getRect().exactCenterY(), squares[move.getTargetSquareIndex()].getRect().width() / 3, paint);
-//            } else if (squares[move.getStartSquareIndex()].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.RED)) {
-//                paint.setColor(Color.RED);
-//                canvas.drawCircle(squares[move.getTargetSquareIndex()].getRect().exactCenterX(), squares[move.getTargetSquareIndex()].getRect().exactCenterY(), squares[move.getTargetSquareIndex()].getRect().width() / 3, paint);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        update();
-//    }
 
 }

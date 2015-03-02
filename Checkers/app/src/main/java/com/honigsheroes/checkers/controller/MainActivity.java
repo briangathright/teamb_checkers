@@ -19,7 +19,6 @@ import com.honigsheroes.checkers.model.Square;
 import com.honigsheroes.checkers.view.GameBoardDisplay;
 
 /** Main activity for Honig's Heroes' Checkers */
-//TODO: Rakesh implement the start button and player name prompting.
 public class MainActivity extends Activity implements CheckersSystem{
 
     protected Square[] squares = new Square[33];
@@ -36,6 +35,11 @@ public class MainActivity extends Activity implements CheckersSystem{
         playerOne = new Player(PlayerColor.BLACK);
         playerTwo = new Player(PlayerColor.RED);
 
+
+        stateOfGame = StateOfGame.READY; //so we can start games.
+        setContentView(R.layout.activity_main); //main menu layout
+    }
+    public void createSquares(){
         // get the width and height of the screen. Create initial set of squares for board
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -51,7 +55,7 @@ public class MainActivity extends Activity implements CheckersSystem{
         int topy = squareHeight;
         int boty = squareHeight * 2;
         int index = 1;
-
+        squares[0]= new Square(new Rect(squareWidth*9,0,squareWidth*10,squareHeight),null);
         for (int row = 0; row < 8; row++) {
             if(row%2 == 0) {
                 leftx = squareWidth * 2;
@@ -78,9 +82,6 @@ public class MainActivity extends Activity implements CheckersSystem{
             topy = boty;
             boty += squareHeight;
         }
-
-        stateOfGame = StateOfGame.READY; //so we can start games.
-        setContentView(R.layout.activity_main); //main menu layout
     }
 
     @Override
@@ -102,13 +103,13 @@ public class MainActivity extends Activity implements CheckersSystem{
             stateOfGame = StateOfGame.PLAYING;
 
             //other initialization stuff
-            //TODO: create CheckerGame instance here, wire model to view
 
+            createSquares();
             boardDisplay = new GameBoardDisplay(squares, this,playerOne, playerTwo);
             CurrentBoard cboard = new CurrentBoard(squares, boardDisplay);
             //Player playerOne = new Player(playerOneName, PlayerColor.BLACK);
             //Player playerTwo = new Player(playerTwoName, PlayerColor.RED);
-            currentGame = new CheckersGame(cboard); //TODO: pass players to game
+            currentGame = new CheckersGame(cboard);
 
             setContentView(boardDisplay); //displays the board
             return true;
@@ -117,13 +118,24 @@ public class MainActivity extends Activity implements CheckersSystem{
     }
 
     /** Passes touch event coordinates to the currentGame, if there is one*/
-    //TODO: touching isn't very accurate atm, half to touch in top half of squares... look to fix
     public boolean onTouchEvent(MotionEvent e) {
         if(stateOfGame.equals(StateOfGame.PLAYING) && e.getAction()==MotionEvent.ACTION_UP) {
             int touchedSquareIndex = boardDisplay.getTouchedSquare();
+            if (touchedSquareIndex==0){
+                quitGame();
+            }
             currentGame.onClick(touchedSquareIndex); //pass the x and y coordinates to game to see which square was clicked etc.
             //we can use dimensions of rects in 'squares' to figure out which square was touched.
             System.out.println("*******"+touchedSquareIndex);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean quitGame() {
+        if (stateOfGame.equals(StateOfGame.PLAYING)) {
+            stateOfGame = StateOfGame.READY;
+            setContentView(R.layout.activity_main);
             return true;
         }
         return false;
