@@ -21,37 +21,31 @@
         android:textColorHighlight="@color/highlighted_text_material_dark"
         android:textSize="@dimen/abc_text_size_title_material"
         android:background="#ffff8286" />
-        //android:background="@drawable/round_corner"
+    //android:background="@drawable/round_corner"
 
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:text="Honig&apos;s Heroes"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="95dp"
-        android:textColorHighlight="#ffff2031"
-        android:freezesText="true"
-        android:elegantTextHeight="true"
-        android:textAlignment="center"
-        android:textStyle="bold|italic"
-        android:autoLink="none"
-        android:textSize="@dimen/abc_text_size_display_1_material"
-        android:textColor="#ff241928"
-        android:focusableInTouchMode="false"
-        android:textColorHint="@color/accent_material_dark" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText2"
+        android:id="@+id/TextView2"
         android:text="Checkers"
         android:textAlignment="center"
         android:textStyle="bold|italic"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:textSize="@dimen/abc_text_size_display_1_material" />
+        android:textSize="@dimen/abc_text_size_display_1_material"
+        android:textColor="#ff241928" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Honig&apos;s Heroes"
+        android:id="@+id/textView1"
+        android:textSize="@dimen/abc_text_size_display_1_material"
+        android:textStyle="bold|italic"
+        android:textColor="#ff241928"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="97dp" />
 
 </RelativeLayout>
