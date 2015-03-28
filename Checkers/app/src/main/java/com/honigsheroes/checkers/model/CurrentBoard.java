@@ -2,6 +2,7 @@ package com.honigsheroes.checkers.model;
 
 import android.graphics.Rect;
 
+import com.honigsheroes.checkers.Constants;
 import com.honigsheroes.checkers.view.GameBoardDisplayListener;
 
 import java.util.ArrayList;
@@ -75,7 +76,15 @@ public class CurrentBoard {
         if (squares[move.getTargetSquareIndex()].getPiece() == null) {
             squares[move.getTargetSquareIndex()].setPiece(squares[move.getStartSquareIndex()].getPiece());
             squares[move.getStartSquareIndex()].setPiece(null);
-            
+            if (removePiece(move)){//if a piece was removed
+                if (squares[move.getTargetSquareIndex()].getPiece().getBelongsTo().getColor()== Constants.PlayerColor.BLACK){//if it was black's move
+                    decreaseNumRedPieces();//red--
+                }
+                else {//it was red's move by default
+                    decreaseNumBlackPieces();//black--
+                }
+            }
+            convertToKing (move.getTargetSquareIndex());
         }
 
         if (checkFollowUpJump(move.getTargetSquareIndex())) {
@@ -91,9 +100,7 @@ public class CurrentBoard {
     }
 
     /**
-     * TODO: Rakesh
-
-     * TODO: update the number of pieces for that player
+     
      */
     public boolean removePiece(Move move) {
 
@@ -151,6 +158,19 @@ public class CurrentBoard {
      * TODO: to become a king and turn it into a king
      */
     public void convertToKing(int squareIndex) {
+        if (squares[squareIndex].getPiece().getPieceType()!= Constants.PieceType.KING) {
+            if (squares[squareIndex].getPiece().getBelongsTo().getColor()==Constants.PlayerColor.RED){
+                if (squareIndex==1 || squareIndex==2 ||squareIndex==3||squareIndex==4){
+                    squares[squareIndex].getPiece().setPieceType(Constants.PieceType.KING);
+                }
 
+            }
+            else if (squares[squareIndex].getPiece().getBelongsTo().getColor()==Constants.PlayerColor.BLACK) {
+                if (squareIndex == 29 || squareIndex == 30 || squareIndex == 31 || squareIndex == 32) {
+                    squares[squareIndex].getPiece().setPieceType(Constants.PieceType.KING);
+
+                }
+            }
+        }
     }
 }
