@@ -1,6 +1,8 @@
 package com.honigsheroes.checkers.controller;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -131,14 +133,29 @@ public class MainActivity extends Activity implements CheckersSystem{
         return false;
     }
 
-    private boolean quitGame() {
-        if (stateOfGame.equals(StateOfGame.PLAYING)) {
-            stateOfGame = StateOfGame.READY;
-            gameType = null; //or whatever we want to reset it
-            setContentView(R.layout.activity_main);
-            return true;
-        }
-        return false;
+    private void quitGame() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Quit Game?");
+        builder.setMessage("Are you sure you want to quit the game and return to the " +
+                "main menu?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (stateOfGame.equals(StateOfGame.PLAYING)) {
+                    stateOfGame = StateOfGame.READY;
+                    gameType = null; //or whatever we want to reset it
+                    setContentView(R.layout.activity_main);
+                }
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 
