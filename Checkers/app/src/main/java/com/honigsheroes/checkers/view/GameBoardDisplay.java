@@ -58,13 +58,13 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
 
                 if (squares[i].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.BLACK)) {
                     paint.setColor(Color.WHITE);
-                    canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), (float) (squares[i].getRect().width() / 2.9), paint);
+                    canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), (float) (squares[i].getRect().width() / 2.7), paint);
                     paint.setColor(Color.DKGRAY);
                     canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), squares[i].getRect().width() / 3, paint);
 
                 } else if (squares[i].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.RED)) {
                     paint.setColor(Color.WHITE);
-                    canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), (float) (squares[i].getRect().width() / 2.9), paint);
+                    canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), (float) (squares[i].getRect().width() / 2.7), paint);
                     paint.setColor(Color.RED);
                     canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), squares[i].getRect().width() / 3, paint);
 
