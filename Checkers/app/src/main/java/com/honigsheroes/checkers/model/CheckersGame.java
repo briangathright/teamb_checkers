@@ -91,6 +91,7 @@ public class CheckersGame{
         performMove(move);
 
 
+
         board.getSquares()[firstSquareIndex].setActive(false);
         firstSquareIndex = Constants.UNUSED_SQUARE;
         secondSquareIndex = Constants.UNUSED_SQUARE;
@@ -128,6 +129,7 @@ public class CheckersGame{
     public void performMove(Move move){
         if(checkIfLegalMove(move)) {
             board.performMove(move);
+
             startNextTurn();
         }
         else {

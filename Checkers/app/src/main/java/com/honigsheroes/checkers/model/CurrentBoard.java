@@ -47,6 +47,13 @@ public class CurrentBoard {
         return numRedPieces;
     }
 
+    public void decreaseNumBlackPieces(){
+        numBlackPieces--;
+    }
+    public void decreaseNumRedPieces(){
+        numRedPieces--;
+    }
+
     /**
      * TODO: Thiago
      * TODO: start working on calculating all legal moves
@@ -68,6 +75,7 @@ public class CurrentBoard {
         if (squares[move.getTargetSquareIndex()].getPiece() == null) {
             squares[move.getTargetSquareIndex()].setPiece(squares[move.getStartSquareIndex()].getPiece());
             squares[move.getStartSquareIndex()].setPiece(null);
+            
         }
 
         if (checkFollowUpJump(move.getTargetSquareIndex())) {
@@ -84,12 +92,57 @@ public class CurrentBoard {
 
     /**
      * TODO: Rakesh
-     * TODO: implement this method
-     * TODO: it should remove the piece at the index
-     * TODO: and update the number of pieces for that player
-     */
-    public void removePiece(int squareIndex) {
 
+     * TODO: update the number of pieces for that player
+     */
+    public boolean removePiece(Move move) {
+
+        if (move.getStartSquareIndex()>move.getTargetSquareIndex()) {//moving from red side to black
+            if (move.getStartSquareIndex()%8<=4&&move.getStartSquareIndex()%8>0) {//indented row
+                if (move.getStartSquareIndex() - move.getTargetSquareIndex() == 9) {//right to left
+                    squares[move.getStartSquareIndex() - 4].setPiece(null);//remove
+                    return true;
+                } else if (move.getStartSquareIndex()-move.getTargetSquareIndex()==7){//left to right
+                    squares[move.getStartSquareIndex() - 3].setPiece(null);//remove
+                    return true;
+                }
+            }
+            else{//non indented row
+                if (move.getStartSquareIndex() - move.getTargetSquareIndex() == 9) {//right to left
+                    squares[move.getStartSquareIndex() - 5].setPiece(null);//remove
+                    return true;
+                }
+                else  if (move.getStartSquareIndex()-move.getTargetSquareIndex()==7){//left to right
+                    squares[move.getStartSquareIndex()-4].setPiece(null);//remove
+                    return true;
+                }
+
+            }
+        }
+        else {//moving from black to red
+            if (move.getStartSquareIndex()%8<=4 && move.getStartSquareIndex()%8 >0) {//indented row
+
+                if (move.getTargetSquareIndex() - move.getStartSquareIndex() == 7) {//right to left
+                    squares[move.getTargetSquareIndex() - 3].setPiece(null);//remove
+                    return true;
+                } else  if (move.getTargetSquareIndex()-move.getStartSquareIndex()==9){//left to right
+                    squares[move.getTargetSquareIndex() - 4].setPiece(null);//remove
+                    return true;
+                }
+            }
+            else{//non indented row
+                if (move.getTargetSquareIndex() - move.getStartSquareIndex() == 7) {//right to left
+                    squares[move.getTargetSquareIndex() - 4].setPiece(null);//remove
+                    return true;
+                }
+                else {if (move.getTargetSquareIndex()-move.getStartSquareIndex()==9)//left to right
+                    squares[move.getTargetSquareIndex()-5].setPiece(null);//remove
+                    return true;
+                }
+
+            }
+        }
+    return false;
     }
 
     /**
