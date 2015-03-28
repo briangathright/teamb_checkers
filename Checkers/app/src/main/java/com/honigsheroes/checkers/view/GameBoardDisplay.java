@@ -48,39 +48,46 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         }
     }
 
-    /**
-     * TODO: Chris
-     * TODO: Draw kings differently
-     * TODO: Draw black pieces so they are more visible (white outline or something)
-     */
+
     private void drawPieces(Canvas canvas) {
+        paint.setTextSize(squares[0].getRect().height()/2);
+        paint.setTextAlign(Paint.Align.CENTER);
+
         for (int i = 1; i < squares.length; i++) {
             if (squares[i].getPiece() != null) {
 
                 if (squares[i].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.BLACK)) {
+                    paint.setColor(Color.WHITE);
+                    canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), (float) (squares[i].getRect().width() / 2.9), paint);
                     paint.setColor(Color.DKGRAY);
                     canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), squares[i].getRect().width() / 3, paint);
+
                 } else if (squares[i].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.RED)) {
+                    paint.setColor(Color.WHITE);
+                    canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), (float) (squares[i].getRect().width() / 2.9), paint);
                     paint.setColor(Color.RED);
                     canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), squares[i].getRect().width() / 3, paint);
+
                 }
+                if (squares[i].getPiece().getPieceType().equals(Constants.PieceType.KING)) {
+                    paint.setColor(Color.WHITE);
+                    canvas.drawText("K",squares[i].getRect().exactCenterX(),squares[i].getRect().exactCenterY()+squares[i].getRect().height()/6,paint);
+                }
+
             }
         }
     }
 
 
-    /**
-     * TODO: Chris
-     * TODO: Change Background color, either to match the main menu's or not, just make it brighter / not the same color as black pieces
-     * TODO: Change name color's if need be with new background
-     */
+
     public void drawBoard(Canvas canvas) {
         int squareWidth = getWidth() / 10;
         int squareHeight = getHeight() / 10;
 
 
-        paint.setColor(Color.DKGRAY); //this is the paint used for background
+        paint.setColor(Color.rgb(135,224,255));//this is the paint used for background
         canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
+
 
         paint.setColor(Color.RED);
         canvas.drawRect(squareWidth, squares[1].getRect().top, squareWidth * 9, squares[32].getRect().bottom, paint);
@@ -97,7 +104,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
             }
             canvas.drawRect(squares[i].getRect(), paint);
         }
-        paint.setColor(Color.GREEN);
+        paint.setColor(Color.BLACK);
         paint.setTextSize(squares[0].getRect().height()/2);
         paint.setTextAlign(Paint.Align.CENTER);
         Rect r = new Rect();
@@ -106,13 +113,13 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         r = new Rect();
         paint.getTextBounds(playerTwoName,0,playerTwoName.length(),r);
         canvas.drawText(playerTwoName, squares[2].getRect().right , squares[1].getRect().height()*9+ squares[1].getRect().height()/2 + r.height()/2, paint);
-        paint.setColor(Color.CYAN);
-        canvas.drawRect(squares[0].getRect(), paint);
         paint.setColor(Color.RED);
+        canvas.drawRect(squares[0].getRect(), paint);
+        paint.setColor(Color.WHITE);
 
 
-        paint.getTextBounds("X",0, "X".length(),r);
-        canvas.drawText("X",squares[0].getRect().centerX(),squares[0].getRect().height()/2 +r.height()/2,paint);
+        paint.getTextBounds("Quit",0, "X".length(),r);
+        canvas.drawText("Quit",squares[0].getRect().centerX(),squares[0].getRect().height()/2 +r.height()/2,paint);
 
     }
 
