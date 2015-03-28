@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -130,7 +131,7 @@ public class MainActivity extends Activity implements CheckersSystem{
             currentGame.onClick(touchedSquareIndex); //pass the x and y coordinates to game to see which square was clicked etc.
 
             //we can use dimensions of rects in 'squares' to figure out which square was touched.
-            System.out.println("*******"+touchedSquareIndex);
+            System.out.println("*******" + touchedSquareIndex);
             return true;
         }
         return false;
@@ -211,6 +212,17 @@ public class MainActivity extends Activity implements CheckersSystem{
         playerOne.setName(playerOneName);
         playerTwo.setName(playerTwoName);
 
+        hideKeyboard(this);
         startGame();
+    }
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if(view == null) {
+            view = new View(activity);
+        }
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
