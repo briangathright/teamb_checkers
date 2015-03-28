@@ -5,6 +5,11 @@
     android:background="#ff87e0ff"
     android:weightSum="1">
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/player1EditText"
+        android:hint="Enter Player One&apos;s Name" />
 
     <EditText
         android:layout_width="match_parent"
@@ -12,12 +17,6 @@
         android:id="@+id/player2EditText"
         android:layout_gravity="center_horizontal"
         android:hint="Enter Player Two&apos;s Name" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/player1EditText"
-        android:hint="Enter Player One&apos;s Name" />
 
     <Button
         android:layout_width="wrap_content"

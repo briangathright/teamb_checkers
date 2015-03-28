@@ -1,5 +1,7 @@
 package com.honigsheroes.checkers.model;
 
+import com.honigsheroes.checkers.Constants.MoveType;
+
 /**
  *
  * Moves have a starting square and a target square.
@@ -7,6 +9,8 @@ package com.honigsheroes.checkers.model;
 public class Move {
     private int startSquareIndex;
     private int targetSquareIndex;
+    private MoveType moveType = null;
+    private int indexOfJumpedSquare = -1;
 
     public Move(int startSquareIndex) {
         this.startSquareIndex = startSquareIndex;
@@ -32,4 +36,21 @@ public class Move {
     public void setTargetSquareIndex(int targetSquareIndex) {
         this.targetSquareIndex = targetSquareIndex;
     }
+
+    public MoveType getMoveType() {
+        return moveType;
+    }
+
+    public void setMoveType(MoveType moveType) {
+        this.moveType = moveType;
+    }
+
+    public int getIndexOfJumpedSquare() {
+        return indexOfJumpedSquare;
+    }
+
+    public void setIndexOfJumpedSquare(int index) {
+        this.indexOfJumpedSquare = index;
+    }
+
 }

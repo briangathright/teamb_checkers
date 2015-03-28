@@ -27,6 +27,7 @@ public class MainActivity extends Activity implements CheckersSystem{
     protected GameBoardDisplay boardDisplay;
     protected Player playerOne;
     protected Player playerTwo;
+    protected GameType gameType; //TODO: Fatma set this accordingly and pass it to game
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +68,10 @@ public class MainActivity extends Activity implements CheckersSystem{
             }
             for (int column = 0; column < 4; column++) {
                 if(row < 3) {
-                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerOne, index));
+                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerOne, index, PieceType.MAN));
                 }
                 else if (row > 4) {
-                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerTwo,index));
+                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerTwo,index, PieceType.MAN));
                 }
                 else {
                     squares[index] = new Square(new Rect(leftx, topy, rightx, boty), null);
@@ -105,11 +106,9 @@ public class MainActivity extends Activity implements CheckersSystem{
             //other initialization stuff
 
             createSquares();
-            boardDisplay = new GameBoardDisplay(squares, this,playerOne, playerTwo);
+            boardDisplay = new GameBoardDisplay(squares, this, playerOne.getName(), playerTwo.getName());
             CurrentBoard cboard = new CurrentBoard(squares, boardDisplay);
-            //Player playerOne = new Player(playerOneName, PlayerColor.BLACK);
-            //Player playerTwo = new Player(playerTwoName, PlayerColor.RED);
-            currentGame = new CheckersGame(cboard);
+            currentGame = new CheckersGame(cboard, playerOne, playerTwo, GameType.HUMAN); //hardcoded rightnow to start human game
 
             setContentView(boardDisplay); //displays the board
             return true;
@@ -135,6 +134,7 @@ public class MainActivity extends Activity implements CheckersSystem{
     private boolean quitGame() {
         if (stateOfGame.equals(StateOfGame.PLAYING)) {
             stateOfGame = StateOfGame.READY;
+            gameType = null; //or whatever we want to reset it
             setContentView(R.layout.activity_main);
             return true;
         }
@@ -142,10 +142,38 @@ public class MainActivity extends Activity implements CheckersSystem{
     }
 
 
+    /**
+     * TODO: Fatma
+     * TODO: Make this function go to the new layout (you make) that has the options for which type of game
+     * TODO: Make the new layout match
+     */
     public void onClickStartButton(View view) {
         setContentView(R.layout.activity_nameselect);
     }
 
+    /**
+     * TODO: Fatma
+     * TODO: Make a layout that has the two options AI or Human
+     * TODO: When the AI button is clicked, create the game and set the gametype accurately
+     */
+    public void onClickAIGameButton(View view) {
+
+    }
+
+    /**
+     * TODO: Fatma
+     * TODO: Make a layout that has the two options AI or Human
+     * TODO: When the human button is clicked, create the game and set the gametype accurately
+     */
+
+    public void onClickHumanGameButton(View view) {
+
+    }
+
+    /**
+     * TODO: Fatma
+     * TODO: Edit this function so that if its an AI game we only prompt for player 1's name
+     */
     public void onClickContinueButton(View view) {
         EditText player1ET = (EditText) findViewById(R.id.player1EditText);
         EditText player2ET = (EditText) findViewById(R.id.player2EditText);

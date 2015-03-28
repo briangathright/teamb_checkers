@@ -26,13 +26,13 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
     private boolean boardDrawn = false;
     private Paint paint = new Paint();
     private Canvas canvas;
-    private Player playerOne;
-    private Player playerTwo;
+    private String playerOneName;
+    private String playerTwoName;
 
-    public GameBoardDisplay(Square[] squares, Context context, Player playerOne, Player playerTwo) {
+    public GameBoardDisplay(Square[] squares, Context context, String playerOneName, String playerTwoName) {
         super(context);
-        this.playerOne = playerOne;
-        this.playerTwo= playerTwo;
+        this.playerOneName = playerOneName;
+        this.playerTwoName = playerTwoName;
 
         this.squares = squares;
     }
@@ -48,6 +48,11 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         }
     }
 
+    /**
+     * TODO: Chris
+     * TODO: Draw kings differently
+     * TODO: Draw black pieces so they are more visible (white outline or something)
+     */
     private void drawPieces(Canvas canvas) {
         for (int i = 1; i < squares.length; i++) {
             if (squares[i].getPiece() != null) {
@@ -64,11 +69,17 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
     }
 
 
+    /**
+     * TODO: Chris
+     * TODO: Change Background color, either to match the main menu's or not, just make it brighter / not the same color as black pieces
+     * TODO: Change name color's if need be with new background
+     */
     public void drawBoard(Canvas canvas) {
         int squareWidth = getWidth() / 10;
         int squareHeight = getHeight() / 10;
 
-       paint.setColor(Color.DKGRAY);
+
+        paint.setColor(Color.DKGRAY); //this is the paint used for background
         canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
 
         paint.setColor(Color.RED);
@@ -90,11 +101,11 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         paint.setTextSize(squares[0].getRect().height()/2);
         paint.setTextAlign(Paint.Align.CENTER);
         Rect r = new Rect();
-        paint.getTextBounds(playerOne.getName(),0,playerOne.getName().length(),r);
-        canvas.drawText(playerOne.getName(), squares[2].getRect().right , squares[1].getRect().height()/2 + r.height()/2, paint);
+        paint.getTextBounds(playerOneName,0,playerOneName.length(),r);
+        canvas.drawText(playerOneName, squares[2].getRect().right , squares[1].getRect().height()/2 + r.height()/2, paint);
         r = new Rect();
-        paint.getTextBounds(playerTwo.getName(),0,playerTwo.getName().length(),r);
-        canvas.drawText(playerTwo.getName(), squares[2].getRect().right , squares[1].getRect().height()*9+ squares[1].getRect().height()/2 + r.height()/2, paint);
+        paint.getTextBounds(playerTwoName,0,playerTwoName.length(),r);
+        canvas.drawText(playerTwoName, squares[2].getRect().right , squares[1].getRect().height()*9+ squares[1].getRect().height()/2 + r.height()/2, paint);
         paint.setColor(Color.CYAN);
         canvas.drawRect(squares[0].getRect(), paint);
         paint.setColor(Color.RED);

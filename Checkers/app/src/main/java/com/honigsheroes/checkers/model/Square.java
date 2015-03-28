@@ -10,21 +10,12 @@ import android.graphics.Rect;
 public class Square {
     private Rect rect;
     private Piece piece;
-    private Player owner;
     private boolean isActive = false;
 
 
     public Square(Rect r, Piece p) {
         rect = r;
         piece = p;
-    }
-
-    public Player getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Player owner) {
-        this.owner = owner;
     }
 
     public Rect getRect() {

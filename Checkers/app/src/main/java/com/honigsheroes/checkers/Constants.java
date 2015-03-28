@@ -1,21 +1,31 @@
 package com.honigsheroes.checkers;
 
-import com.honigsheroes.checkers.model.CurrentBoard;
-import com.honigsheroes.checkers.model.Square;
-
 /**
  * Location of constants to be used throughout app.
  */
 public class Constants {
 
     /**
+     * Constant for any unused square that is clicked (such as red or out of bounds)
+     */
+    public static final int UNUSED_SQUARE = -1;
+
+    /**
      * This enum is used to represent the current state of the game.
      * READY = app is ready to start a new game
      * PLAYING = app is currently playing a game
-     * FINISHED = app has finished a game, but isn't READY to start a new one.
      */
     public enum StateOfGame {
-        READY, PLAYING, FINISHED
+        READY, PLAYING
+    }
+
+    /**
+     * This enum is used to specify the type of a piece
+     * MAN = A regular piece, they can only move forward
+     * KING = A king piece, they can move forward or backward
+     */
+    public enum PieceType {
+        MAN, KING
     }
 
     /**
@@ -27,5 +37,21 @@ public class Constants {
         BLACK, RED
     }
 
-    public static final int UNUSED_SQUARE = -1;
+    /**REGULAR
+     * This enum specifies the game type.
+     * HUMAN = two humans playing on the same device
+     * AI = one human vs one AI
+     */
+    public enum GameType {
+        HUMAN, AI
+    }
+
+    /**
+     * This enum specifies the type of a move.
+     * STANDARD = A regular move forward (or backward) one square
+     * JUMP = A jump move forward (or backward) any piece jumped is captured
+     */
+    public enum MoveType {
+        STANDARD, JUMP
+    }
 }
