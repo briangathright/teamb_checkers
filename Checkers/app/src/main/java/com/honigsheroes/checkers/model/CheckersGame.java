@@ -29,9 +29,10 @@ public class CheckersGame{
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         this.gameType = gameType;
+        displayMessage(playerOne.getName() + "'s turn to move.");
     }
 
-    public void displayErrorMessage(String message) {
+    public void displayMessage(String message) {
         Toast.makeText(context.getApplicationContext(), message , Toast.LENGTH_SHORT).show();
     }
     public void onClick(int touchedSquareIndex) {
@@ -45,7 +46,7 @@ public class CheckersGame{
             }
             firstSquareIndex = Constants.UNUSED_SQUARE; //reset the first square
             secondSquareIndex = Constants.UNUSED_SQUARE; //reset the second square
-            displayErrorMessage("You may only select black squares.");
+            displayMessage("You may only select black squares.");
             board.updateDisplay();
             return;
         }
@@ -62,7 +63,7 @@ public class CheckersGame{
             secondSquareIndex = touchedSquareIndex; //set the second square
 
             if(firstSquareIndex == Constants.UNUSED_SQUARE) { //if the first square is not set
-                displayErrorMessage("You may only select your own pieces.");
+                displayMessage("You may only select your own pieces.");
                 board.updateDisplay();
                 secondSquareIndex = Constants.UNUSED_SQUARE;
                 return;
@@ -81,7 +82,7 @@ public class CheckersGame{
             board.getSquares()[firstSquareIndex].setActive(false); //unhighlight
             firstSquareIndex = Constants.UNUSED_SQUARE;
             secondSquareIndex = Constants.UNUSED_SQUARE;
-            displayErrorMessage("You may only move to unoccupied black squares.");
+            displayMessage("You may only move to unoccupied black squares.");
             board.updateDisplay();
             return;
         }
@@ -135,16 +136,20 @@ public class CheckersGame{
     }
 
     public void startNextTurn() {
+
         board.calculateLegalMoves();
 
         if(checkWinConditions()) {
+
             //display winner etc
         }
 
         if(playerTurn == PlayerColor.BLACK) {
             playerTurn = PlayerColor.RED;
+            displayMessage(playerTwo.getName() + "'s turn to move.");
         }
         else {
+            displayMessage(playerOne.getName() + "'s turn to move.");
             playerTurn = PlayerColor.BLACK;
         }
 
