@@ -7,6 +7,6 @@ import com.honigsheroes.checkers.model.Move;
  * View to update itself when moves occur.
  */
 public interface GameBoardDisplayListener {
-    void update(String errorMessage);
+    void update();
 
 }

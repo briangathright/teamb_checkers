@@ -111,7 +111,7 @@ public class MainActivity extends Activity implements CheckersSystem{
             createSquares();
             boardDisplay = new GameBoardDisplay(squares, this, playerOne.getName(), playerTwo.getName());
             CurrentBoard cboard = new CurrentBoard(squares, boardDisplay);
-            currentGame = new CheckersGame(cboard, playerOne, playerTwo, GameType.HUMAN); //hardcoded rightnow to start human game
+            currentGame = new CheckersGame(this, cboard, playerOne, playerTwo, GameType.HUMAN); //hardcoded rightnow to start human game
 
             setContentView(boardDisplay); //displays the board
             return true;

@@ -2,6 +2,9 @@ package com.honigsheroes.checkers.model;
 
 import com.honigsheroes.checkers.Constants;
 import com.honigsheroes.checkers.Constants.*;
+import android.content.Context;
+import android.widget.Toast;
+
 /**
  * The model for the checker game.
  * A checkers game has 2 players, and a current board.
@@ -9,7 +12,7 @@ import com.honigsheroes.checkers.Constants.*;
 public class CheckersGame{
 
 
-
+    private Context context;
     private CurrentBoard board;
     private Move move = new Move(-1, -1);
     private int firstSquareIndex = -1;
@@ -20,16 +23,20 @@ public class CheckersGame{
     private PlayerColor playerTurn= PlayerColor.BLACK;
 
 
-    public CheckersGame(CurrentBoard board, Player playerOne, Player playerTwo, GameType gameType) {
+    public CheckersGame(Context context, CurrentBoard board, Player playerOne, Player playerTwo, GameType gameType) {
         this.board = board;
+        this.context = context;
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         this.gameType = gameType;
     }
 
+    public void displayErrorMessage(String message) {
+        Toast.makeText(context.getApplicationContext(), message , Toast.LENGTH_SHORT).show();
+    }
     public void onClick(int touchedSquareIndex) {
         if(touchedSquareIndex == 0) {
-            
+
             return;
         }
         if(touchedSquareIndex == Constants.UNUSED_SQUARE) { //if a non black square is touched
@@ -38,7 +45,8 @@ public class CheckersGame{
             }
             firstSquareIndex = Constants.UNUSED_SQUARE; //reset the first square
             secondSquareIndex = Constants.UNUSED_SQUARE; //reset the second square
-            board.updateDisplay("You may only select black squares.");
+            displayErrorMessage("You may only select black squares.");
+            board.updateDisplay();
             return;
         }
         if(firstSquareIndex == Constants.UNUSED_SQUARE //if this is the first square touched
@@ -46,7 +54,7 @@ public class CheckersGame{
                 && board.getSquares()[touchedSquareIndex].getPiece().getBelongsTo().getColor()==playerTurn) { //and the piece belongs to the player with control
             firstSquareIndex = touchedSquareIndex; //set the first square
             board.getSquares()[firstSquareIndex].setActive(true); //highlight the square
-            board.updateDisplay(null);
+            board.updateDisplay();
             return;
         }
         else { //else its the second square touched
@@ -54,14 +62,15 @@ public class CheckersGame{
             secondSquareIndex = touchedSquareIndex; //set the second square
 
             if(firstSquareIndex == Constants.UNUSED_SQUARE) { //if the first square is not set
-                board.updateDisplay("You may only select your own pieces.");
+                displayErrorMessage("You may only select your own pieces.");
+                board.updateDisplay();
                 secondSquareIndex = Constants.UNUSED_SQUARE;
                 return;
             }
 
             if(firstSquareIndex == secondSquareIndex) { //if the first and 2nd are the same
                 board.getSquares()[firstSquareIndex].setActive(false); //unhighlight
-                board.updateDisplay(null);
+                board.updateDisplay();
                 firstSquareIndex = Constants.UNUSED_SQUARE; //reset square
                 secondSquareIndex = Constants.UNUSED_SQUARE; //reset square
                 return;
@@ -72,7 +81,8 @@ public class CheckersGame{
             board.getSquares()[firstSquareIndex].setActive(false); //unhighlight
             firstSquareIndex = Constants.UNUSED_SQUARE;
             secondSquareIndex = Constants.UNUSED_SQUARE;
-            board.updateDisplay("You may only move to unoccupied black squares.");
+            displayErrorMessage("You may only move to unoccupied black squares.");
+            board.updateDisplay();
             return;
         }
         move.setStartSquareIndex(firstSquareIndex);
@@ -83,7 +93,7 @@ public class CheckersGame{
         board.getSquares()[firstSquareIndex].setActive(false);
         firstSquareIndex = Constants.UNUSED_SQUARE;
         secondSquareIndex = Constants.UNUSED_SQUARE;
-        board.updateDisplay(null);
+        board.updateDisplay();
         }
 
 

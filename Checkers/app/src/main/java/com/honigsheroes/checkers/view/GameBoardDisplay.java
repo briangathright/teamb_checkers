@@ -154,10 +154,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
      * will cause the view to invalidate itself. invalidate() tells the view to redraw itself.
      */
     @Override
-    public void update(String errorMessage) {
-        if(errorMessage != null) {
-            Toast.makeText(context.getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
-        }
+    public void update() {
         touchedSquareIndex=Constants.UNUSED_SQUARE;
         invalidate();
 

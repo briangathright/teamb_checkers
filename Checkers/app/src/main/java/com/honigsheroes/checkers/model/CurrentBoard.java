@@ -27,8 +27,8 @@ public class CurrentBoard {
     }
 
 
-    public void updateDisplay(String errorMessage) { //use getters and setters
-        listener.update(errorMessage);
+    public void updateDisplay() { //use getters and setters
+        listener.update();
     }
 
     public Square[] getSquares() {
