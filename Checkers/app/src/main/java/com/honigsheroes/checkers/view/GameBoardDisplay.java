@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import com.honigsheroes.checkers.Constants;
 import com.honigsheroes.checkers.model.CheckersGame;
@@ -28,9 +29,11 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
     private Canvas canvas;
     private String playerOneName;
     private String playerTwoName;
+    private Context context;
 
     public GameBoardDisplay(Square[] squares, Context context, String playerOneName, String playerTwoName) {
         super(context);
+        this.context = context;
         this.playerOneName = playerOneName;
         this.playerTwoName = playerTwoName;
 
@@ -151,10 +154,11 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
      * will cause the view to invalidate itself. invalidate() tells the view to redraw itself.
      */
     @Override
-    public void update() {
-
+    public void update(String errorMessage) {
+        if(errorMessage != null) {
+            Toast.makeText(context.getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
+        }
         touchedSquareIndex=Constants.UNUSED_SQUARE;
-
         invalidate();
 
     }

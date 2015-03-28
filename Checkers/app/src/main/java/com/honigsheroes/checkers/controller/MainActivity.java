@@ -10,6 +10,7 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.honigsheroes.checkers.R;
 import com.honigsheroes.checkers.model.CheckersGame;
@@ -120,12 +121,14 @@ public class MainActivity extends Activity implements CheckersSystem{
 
     /** Passes touch event coordinates to the currentGame, if there is one*/
     public boolean onTouchEvent(MotionEvent e) {
+
         if(stateOfGame.equals(StateOfGame.PLAYING) && e.getAction()==MotionEvent.ACTION_UP) {
             int touchedSquareIndex = boardDisplay.getTouchedSquare();
             if (touchedSquareIndex==0){
                 quitGame();
             }
             currentGame.onClick(touchedSquareIndex); //pass the x and y coordinates to game to see which square was clicked etc.
+
             //we can use dimensions of rects in 'squares' to figure out which square was touched.
             System.out.println("*******"+touchedSquareIndex);
             return true;
