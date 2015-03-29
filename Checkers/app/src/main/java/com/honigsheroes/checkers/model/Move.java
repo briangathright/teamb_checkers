@@ -20,6 +20,12 @@ public class Move {
         this.startSquareIndex = startSquareIndex;
         this.targetSquareIndex = targetSquareIndex;
     }
+    public Move (int startSquareIndex, int targetSquareIndex, MoveType moveType,int indexOfJumpedSquare){
+        this.startSquareIndex = startSquareIndex;
+        this.targetSquareIndex = targetSquareIndex;
+        this.moveType=moveType;
+        this.indexOfJumpedSquare=indexOfJumpedSquare;
+    }
 
     public int getStartSquareIndex() {
         return startSquareIndex;

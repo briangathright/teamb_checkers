@@ -123,6 +123,7 @@ public class CheckersGame{
      * TODO: then we can figure out if its a legal move and return true/false accordingly
      */
     public boolean checkIfLegalMove(Move move) {
+
         return true;
     }
 
@@ -160,11 +161,16 @@ public class CheckersGame{
         }
     }
 
-    /**
-     * TODO: Thiago
-     * TODO: add the checks here to see who wins
-     */
+
     public boolean checkWinConditions() {
+        if (board.getNumBlackPieces()<=0){
+            displayMessage(playerTwo.getName() + " is the winner!");
+            return true;
+        }
+        else if (board.getNumRedPieces()<=0){
+            displayMessage(playerOne.getName() + " is the winner!");
+            return true;
+        }
         return false;
     }
 

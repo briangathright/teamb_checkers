@@ -164,6 +164,8 @@ public class MainActivity extends Activity implements CheckersSystem{
 
 
     /**
+     * TODO:RAKESH
+     * TODO: HELP FATMA
      * TODO: Fatma
      * TODO: Make this function go to the new layout (you make) that has the options for which type of game
      * TODO: Make the new layout match

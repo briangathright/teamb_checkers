@@ -56,11 +56,74 @@ public class CurrentBoard {
     }
 
     /**
-     * TODO: Thiago
-     * TODO: start working on calculating all legal moves
-     * TODO: focus on just regular pieces and their jumps
+     * TODO: MEERA
+     * TODO: Add king moves to list.
+     * TODO: THIAGO
+     * TODO: test logic once checkLegalMoves implemented
+     *
      */
     public void calculateLegalMoves() {
+        for (int i =1;i<=32;i++) {
+            if(squares[i].getPiece()!=null) {
+                if (squares[i].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.BLACK) {
+                    if (squares[i].getPiece().getPieceType() == Constants.PieceType.MAN && i < 29) { //black regular piece not in last row
+                        if ((i % 8 != 4)) {
+                            if (squares[i + 5].getPiece() == null) {
+                                legalMovesBlack.add(new Move(i, i + 5));
+                            } else if (i < 25 && squares[i + 5].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.RED && i % 8 != 0) {//black regular piece not in 2nd to last row
+                                if (squares[i + 9].getPiece() == null) {
+                                    legalMovesBlack.add(new Move(i, i + 9, Constants.MoveType.JUMP, i + 5));
+                                    blackHasJump = true;
+                                }
+                            }
+                        }
+                        if (i % 8 != 1) {
+                            if (squares[i + 4].getPiece() == null) {
+                                legalMovesBlack.add(new Move(i, i + 4));
+                            } else if (squares[i + 4].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.RED && i % 8 != 5) {
+                                if (i < 25) {
+                                    if (squares[i + 7].getPiece() == null) {
+                                        legalMovesBlack.add(new Move(i, i + 9, Constants.MoveType.JUMP, i + 4));
+                                        blackHasJump = true;
+                                    }
+                                }
+
+                            }
+                        }
+
+                    }
+
+                } else if (squares[i].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.RED) {
+                    if (squares[i].getPiece().getPieceType() == Constants.PieceType.MAN && i > 4) { //black regular piece not in last row
+                        if ((i % 8 != 4)) {
+                            if (squares[i - 4].getPiece() == null) {
+                                legalMovesRed.add(new Move(i, i - 4));
+                            } else if (i > 8 && squares[i - 4].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.BLACK && i % 8 != 0) {//black regular piece not in 2nd to last row
+                                if (squares[i - 7].getPiece() == null) {
+                                    legalMovesRed.add(new Move(i, i - 7, Constants.MoveType.JUMP, i - 4));
+                                    redHasJump = true;
+                                }
+                            }
+                        }
+                        if (i % 8 != 1) {
+                            if (squares[i - 5].getPiece() == null) {
+                                legalMovesRed.add(new Move(i, i - 5));
+                            } else if (i > 8 && squares[i - 5].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.RED && i % 8 != 5) {
+                                if (squares[i - 9].getPiece() == null) {
+                                    legalMovesRed.add(new Move(i, i - 9, Constants.MoveType.JUMP, i - 5));
+                                    redHasJump = true;
+                                }
+
+                            }
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
 
     }
 
@@ -76,20 +139,19 @@ public class CurrentBoard {
         if (squares[move.getTargetSquareIndex()].getPiece() == null) {
             squares[move.getTargetSquareIndex()].setPiece(squares[move.getStartSquareIndex()].getPiece());
             squares[move.getStartSquareIndex()].setPiece(null);
-            if (removePiece(move)){//if a piece was removed
-                if (squares[move.getTargetSquareIndex()].getPiece().getBelongsTo().getColor()== Constants.PlayerColor.BLACK){//if it was black's move
-                    decreaseNumRedPieces();//red--
-                }
-                else {//it was red's move by default
-                    decreaseNumBlackPieces();//black--
-                }
+            if (move.getMoveType()==Constants.MoveType.JUMP){
+                removePiece(move);
             }
             convertToKing (move.getTargetSquareIndex());
         }
-
+        blackHasJump=false;
+        redHasJump=false;
+        legalMovesBlack.clear();
+        legalMovesRed.clear();
         if (checkFollowUpJump(move.getTargetSquareIndex())) {
         //if there is followup jumps
         }
+
     }
 
     /**
@@ -99,63 +161,20 @@ public class CurrentBoard {
         return false;
     }
 
-    /**
-     
-     */
-    public boolean removePiece(Move move) {
 
-        if (move.getStartSquareIndex()>move.getTargetSquareIndex()) {//moving from red side to black
-            if (move.getStartSquareIndex()%8<=4&&move.getStartSquareIndex()%8>0) {//indented row
-                if (move.getStartSquareIndex() - move.getTargetSquareIndex() == 9) {//right to left
-                    squares[move.getStartSquareIndex() - 4].setPiece(null);//remove
-                    return true;
-                } else if (move.getStartSquareIndex()-move.getTargetSquareIndex()==7){//left to right
-                    squares[move.getStartSquareIndex() - 3].setPiece(null);//remove
-                    return true;
-                }
-            }
-            else{//non indented row
-                if (move.getStartSquareIndex() - move.getTargetSquareIndex() == 9) {//right to left
-                    squares[move.getStartSquareIndex() - 5].setPiece(null);//remove
-                    return true;
-                }
-                else  if (move.getStartSquareIndex()-move.getTargetSquareIndex()==7){//left to right
-                    squares[move.getStartSquareIndex()-4].setPiece(null);//remove
-                    return true;
-                }
-
-            }
+    public void removePiece(Move move) {
+        if (squares[move.getIndexOfJumpedSquare()].getPiece().getBelongsTo().getColor()==Constants.PlayerColor.BLACK){
+            squares[move.getIndexOfJumpedSquare()].setPiece(null);
+            decreaseNumBlackPieces();
         }
-        else {//moving from black to red
-            if (move.getStartSquareIndex()%8<=4 && move.getStartSquareIndex()%8 >0) {//indented row
-
-                if (move.getTargetSquareIndex() - move.getStartSquareIndex() == 7) {//right to left
-                    squares[move.getTargetSquareIndex() - 3].setPiece(null);//remove
-                    return true;
-                } else  if (move.getTargetSquareIndex()-move.getStartSquareIndex()==9){//left to right
-                    squares[move.getTargetSquareIndex() - 4].setPiece(null);//remove
-                    return true;
-                }
-            }
-            else{//non indented row
-                if (move.getTargetSquareIndex() - move.getStartSquareIndex() == 7) {//right to left
-                    squares[move.getTargetSquareIndex() - 4].setPiece(null);//remove
-                    return true;
-                }
-                else {if (move.getTargetSquareIndex()-move.getStartSquareIndex()==9)//left to right
-                    squares[move.getTargetSquareIndex()-5].setPiece(null);//remove
-                    return true;
-                }
-
-            }
+        else if (squares[move.getIndexOfJumpedSquare()].getPiece().getBelongsTo().getColor()==Constants.PlayerColor.RED){
+            squares[move.getIndexOfJumpedSquare()].setPiece(null);
+            decreaseNumRedPieces();
         }
-    return false;
     }
 
     /**
-     * TODO: Meera
-     * TODO: Implement this method to check to see if a piece needs
-     * TODO: to become a king and turn it into a king
+
      */
     public void convertToKing(int squareIndex) {
         if (squares[squareIndex].getPiece().getPieceType()!= Constants.PieceType.KING) {
