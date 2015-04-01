@@ -31,7 +31,7 @@ public class MainActivity extends Activity implements CheckersSystem{
     protected GameBoardDisplay boardDisplay;
     protected Player playerOne;
     protected Player playerTwo;
-    protected GameType gameType; //TODO: Fatma set this accordingly and pass it to game
+    protected GameType gameType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,41 +163,33 @@ public class MainActivity extends Activity implements CheckersSystem{
     }
 
 
-    /**
-     * TODO:RAKESH
-     * TODO: HELP FATMA
-     * TODO: Fatma
-     * TODO: Make this function go to the new layout (you make) that has the options for which type of game
-     * TODO: Make the new layout match
-     */
+
+
     public void onClickStartButton(View view) {
-        setContentView(R.layout.activity_nameselect);
+        setContentView(R.layout.players_types);
+
     }
 
-    /**
-     * TODO: Fatma
-     * TODO: Make a layout that has the two options AI or Human
-     * TODO: When the AI button is clicked, create the game and set the gametype accurately
-     */
+
+
     public void onClickAIGameButton(View view) {
+        gameType =GameType.AI;
+        setContentView(R.layout.selectnames);
 
     }
 
-    /**
-     * TODO: Fatma
-     * TODO: Make a layout that has the two options AI or Human
-     * TODO: When the human button is clicked, create the game and set the gametype accurately
-     */
 
     public void onClickHumanGameButton(View view) {
+        gameType =GameType.HUMAN;
+        setContentView(R.layout.activity_nameselect);
 
     }
 
-    /**
-     * TODO: Fatma
-     * TODO: Edit this function so that if its an AI game we only prompt for player 1's name
-     */
+
     public void onClickContinueButton(View view) {
+
+
+        if (gameType ==GameType.HUMAN){
         EditText player1ET = (EditText) findViewById(R.id.player1EditText);
         EditText player2ET = (EditText) findViewById(R.id.player2EditText);
 
@@ -215,7 +207,30 @@ public class MainActivity extends Activity implements CheckersSystem{
         playerTwo.setName(playerTwoName);
 
         hideKeyboard(this);
-        startGame();
+        startGame();}
+
+        else
+        {EditText player1ET = (EditText) findViewById(R.id.player1EditText);
+
+            String playerOneName = player1ET.getText().toString();
+
+            if(playerOneName.equals("")) {
+                playerOneName = "Player 1";
+            }
+
+            playerOne.setName(playerOneName);
+            playerTwo.setName("Computer player");
+
+            hideKeyboard(this);
+            startGame();
+
+
+
+        }
+
+
+
+
     }
     public static void hideKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);

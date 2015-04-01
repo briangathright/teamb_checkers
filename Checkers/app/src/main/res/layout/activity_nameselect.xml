@@ -11,6 +11,8 @@
         android:id="@+id/player1EditText"
         android:hint="Enter Player One&apos;s Name" />
 
+
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
