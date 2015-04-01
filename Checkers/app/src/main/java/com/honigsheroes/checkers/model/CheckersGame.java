@@ -3,6 +3,8 @@ package com.honigsheroes.checkers.model;
 import com.honigsheroes.checkers.Constants;
 import com.honigsheroes.checkers.Constants.*;
 import android.content.Context;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class CheckersGame{
     private GameType gameType;
     private PlayerColor playerTurn= PlayerColor.BLACK;
 
+    private Toast mToast;
 
     public CheckersGame(Context context, CurrentBoard board, Player playerOne, Player playerTwo, GameType gameType) {
         this.board = board;
@@ -39,11 +42,21 @@ public class CheckersGame{
     }
 
     public void displayMessage(String message) {
-        Toast.makeText(context.getApplicationContext(), message , Toast.LENGTH_SHORT).show();
+        if(mToast == null) {
+            mToast = Toast.makeText(context.getApplicationContext(), message , Toast.LENGTH_SHORT);
+        }
+        else {
+            mToast.setText(message);
+        }
+        mToast.show();
+
     }
     public void onClick(int touchedSquareIndex) {
         if(touchedSquareIndex == 0) {
 
+            return;
+        }
+        if(playerTurn == PlayerColor.RED && gameType == GameType.AI){
             return;
         }
 
@@ -269,7 +282,11 @@ public class CheckersGame{
         }
 
         if(gameType == GameType.AI && playerTurn == PlayerColor.RED) {
-            moveAI();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    moveAI(); } }, 1000);
+
         }
     }
 
@@ -316,7 +333,7 @@ public class CheckersGame{
         }
 
         performMove();
-
+        board.updateDisplay();
         if(followUpJump) {
             moveAI();
         }
