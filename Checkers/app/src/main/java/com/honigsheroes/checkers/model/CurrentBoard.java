@@ -48,10 +48,11 @@ public class CurrentBoard {
         return numRedPieces;
     }
 
-    public void decreaseNumBlackPieces(){
+    public void decreaseNumBlackPieces() {
         numBlackPieces--;
     }
-    public void decreaseNumRedPieces(){
+
+    public void decreaseNumRedPieces() {
         numRedPieces--;
     }
 
@@ -60,13 +61,12 @@ public class CurrentBoard {
      * TODO: Add king moves to list.
      * TODO: THIAGO
      * TODO: test logic once checkLegalMoves implemented
-     *
      */
     public void calculateLegalMoves() {
-        for (int i =1;i<=32;i++) {
-            if(squares[i].getPiece()!=null) {
+        for (int i = 1; i <= 32; i++) {
+            if (squares[i].getPiece() != null) {
                 if (squares[i].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.BLACK) {
-                    if (squares[i].getPiece().getPieceType() == Constants.PieceType.MAN && i < 29) { //black regular piece not in last row
+                    if (squares[i].getPiece().getPieceType() == Constants.PieceType.MAN || squares[i].getPiece().getPieceType() == Constants.PieceType.KING && i < 29) { //black regular piece not in last row
                         if ((i % 8 != 4)) {
                             if (squares[i + 5].getPiece() == null) {
                                 legalMovesBlack.add(new Move(i, i + 5));
@@ -76,6 +76,18 @@ public class CurrentBoard {
                                     blackHasJump = true;
                                 }
                             }
+
+                            if (squares[i].getPiece().getPieceType() == Constants.PieceType.KING) {
+                                if (squares[i - 4].getPiece() == null) {
+                                    legalMovesBlack.add(new Move(i, i - 4));
+                                } else if (i > 8 && squares[i - 4].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.RED && i % 8 != 0) {
+                                    if (squares[i - 7].getPiece() == null) {
+                                        legalMovesBlack.add(new Move(i, i - 7, Constants.MoveType.JUMP, i - 4));
+                                        blackHasJump = true;
+                                    }
+                                }
+                            }
+
                         }
                         if (i % 8 != 1) {
                             if (squares[i + 4].getPiece() == null) {
@@ -88,19 +100,46 @@ public class CurrentBoard {
                                     }
                                 }
 
+                                if (squares[i].getPiece().getPieceType() == Constants.PieceType.KING) {
+                                    if (squares[i - 5].getPiece() == null) {
+                                        legalMovesBlack.add(new Move(i, i - 5));
+                                    } else if (i > 8 && squares[i - 5].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.RED && i % 8 != 5) {
+                                        if (squares[i - 9].getPiece() == null) {
+                                            legalMovesBlack.add(new Move(i, i - 9, Constants.MoveType.JUMP, i - 5));
+                                            blackHasJump = true;
+                                        }
+
+                                    }
+
+                                }
+
+
                             }
+
+
                         }
 
                     }
+                }
 
-                } else if (squares[i].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.RED) {
-                    if (squares[i].getPiece().getPieceType() == Constants.PieceType.MAN && i > 4) { //black regular piece not in last row
-                        if ((i % 8 != 4)) {
-                            if (squares[i - 4].getPiece() == null) {
-                                legalMovesRed.add(new Move(i, i - 4));
-                            } else if (i > 8 && squares[i - 4].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.BLACK && i % 8 != 0) {//black regular piece not in 2nd to last row
-                                if (squares[i - 7].getPiece() == null) {
-                                    legalMovesRed.add(new Move(i, i - 7, Constants.MoveType.JUMP, i - 4));
+            } else if (squares[i].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.RED) {
+                if (squares[i].getPiece().getPieceType() == Constants.PieceType.MAN || squares[i].getPiece().getPieceType() == Constants.PieceType.KING && i > 4) { //black regular piece not in last row
+                    if ((i % 8 != 4)) {
+                        if (squares[i - 4].getPiece() == null) {
+                            legalMovesRed.add(new Move(i, i - 4));
+                        } else if (i > 8 && squares[i - 4].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.BLACK && i % 8 != 0) {//black regular piece not in 2nd to last row
+                            if (squares[i - 7].getPiece() == null) {
+                                legalMovesRed.add(new Move(i, i - 7, Constants.MoveType.JUMP, i - 4));
+                                redHasJump = true;
+                            }
+                        }
+                        if (squares[i].getPiece().getPieceType() == Constants.PieceType.KING) {
+
+                            if (squares[i + 5].getPiece() == null) {
+                                legalMovesRed.add(new Move(i, i + 5));
+                            } else if (i < 25 && squares[i + 5].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.BLACK && i % 8 != 0) {//black regular piece not in 2nd to last row
+                                if (squares[i + 9].getPiece() == null) {
+                                    legalMovesRed.add(new Move(i, i + 9, Constants.MoveType.JUMP, i + 5));
                                     redHasJump = true;
                                 }
                             }
@@ -115,6 +154,23 @@ public class CurrentBoard {
                                 }
 
                             }
+
+                            if (squares[i].getPiece().getPieceType() == Constants.PieceType.KING) {
+
+                                if (squares[i + 4].getPiece() == null) {
+                                    legalMovesRed.add(new Move(i, i + 4));
+                                } else if (squares[i + 4].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.RED && i % 8 != 5) {
+                                    if (i < 25) {
+                                        if (squares[i + 7].getPiece() == null) {
+                                            legalMovesRed.add(new Move(i, i + 9, Constants.MoveType.JUMP, i + 4));
+                                            redHasJump = true;
+                                        }
+                                    }
+
+                                }
+
+
+                            }
                         }
 
                     }
@@ -126,6 +182,9 @@ public class CurrentBoard {
         }
 
     }
+
+
+
 
     public ArrayList<Move> getMovesBlack(){
         return legalMovesBlack;
