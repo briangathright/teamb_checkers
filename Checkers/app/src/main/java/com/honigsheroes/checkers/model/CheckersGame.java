@@ -261,6 +261,8 @@ public class CheckersGame{
                 displayMessage("You must Jump!");
             }
             else {
+                System.out.println(move.getStartSquareIndex());
+                System.out.println(move.getTargetSquareIndex());
                 displayMessage("Not a legal move, try again");
             }
 
@@ -282,10 +284,11 @@ public class CheckersGame{
         }
 
         if(gameType == GameType.AI && playerTurn == PlayerColor.RED) {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                public void run() {
-                    moveAI(); } }, 1000);
+                moveAI();
+//            Handler handler = new Handler();
+//            handler.postDelayed(new Runnable() {
+//                public void run() {
+//                    moveAI(); } }, 1000);
 
         }
     }
@@ -337,5 +340,12 @@ public class CheckersGame{
         if(followUpJump) {
             moveAI();
         }
+
+//            Handler handler = new Handler();
+//            handler.postDelayed(new Runnable() {
+//                public void run() {
+//                    if(followUpJump) {
+//                    moveAI(); } } }, 1000);
+
     }
 }
