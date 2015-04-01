@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#ff87e0ff"
+    >
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="One Player"
+        android:id="@+id/button2"
+        android:onClick="onClickAIGameButton"
+        android:textStyle="bold"
+        android:textColor="#ff0c0c0e"
+        android:textColorHighlight="@color/highlighted_text_material_dark"
+        android:textSize="@dimen/abc_text_size_title_material"
+        android:background="#ffff8286"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/button3"
+        android:layout_marginTop="169dp"
+        android:layout_alignEnd="@+id/button3" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Two Players"
+        android:id="@+id/button3"
+        android:onClick="onClickHumanGameButton"
+        android:textStyle="bold"
+        android:textColor="#ff0c0c0e"
+        android:textColorHighlight="@color/highlighted_text_material_dark"
+        android:textSize="@dimen/abc_text_size_title_material"
+        android:background="#ffff8286"
+
+
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/textView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="231dp"
+
+
+
+        />
+</RelativeLayout>
