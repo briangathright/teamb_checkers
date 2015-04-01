@@ -120,63 +120,61 @@ public class CurrentBoard {
                         }
 
                     }
-                }
-
-            } else if (squares[i].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.RED) {
-                if (squares[i].getPiece().getPieceType() == Constants.PieceType.MAN || squares[i].getPiece().getPieceType() == Constants.PieceType.KING && i > 4) { //black regular piece not in last row
-                    if ((i % 8 != 4)) {
-                        if (squares[i - 4].getPiece() == null) {
-                            legalMovesRed.add(new Move(i, i - 4));
-                        } else if (i > 8 && squares[i - 4].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.BLACK && i % 8 != 0) {//black regular piece not in 2nd to last row
-                            if (squares[i - 7].getPiece() == null) {
-                                legalMovesRed.add(new Move(i, i - 7, Constants.MoveType.JUMP, i - 4));
-                                redHasJump = true;
-                            }
-                        }
-                        if (squares[i].getPiece().getPieceType() == Constants.PieceType.KING) {
-
-                            if (squares[i + 5].getPiece() == null) {
-                                legalMovesRed.add(new Move(i, i + 5));
-                            } else if (i < 25 && squares[i + 5].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.BLACK && i % 8 != 0) {//black regular piece not in 2nd to last row
-                                if (squares[i + 9].getPiece() == null) {
-                                    legalMovesRed.add(new Move(i, i + 9, Constants.MoveType.JUMP, i + 5));
+                } else if (squares[i].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.RED) {
+                    if (squares[i].getPiece().getPieceType() == Constants.PieceType.MAN || squares[i].getPiece().getPieceType() == Constants.PieceType.KING && i > 4) { //black regular piece not in last row
+                        if ((i % 8 != 4)) {
+                            if (squares[i - 4].getPiece() == null) {
+                                legalMovesRed.add(new Move(i, i - 4));
+                            } else if (i > 8 && squares[i - 4].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.BLACK && i % 8 != 0) {//black regular piece not in 2nd to last row
+                                if (squares[i - 7].getPiece() == null) {
+                                    legalMovesRed.add(new Move(i, i - 7, Constants.MoveType.JUMP, i - 4));
                                     redHasJump = true;
                                 }
                             }
-                        }
-                        if (i % 8 != 1) {
-                            if (squares[i - 5].getPiece() == null) {
-                                legalMovesRed.add(new Move(i, i - 5));
-                            } else if (i > 8 && squares[i - 5].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.RED && i % 8 != 5) {
-                                if (squares[i - 9].getPiece() == null) {
-                                    legalMovesRed.add(new Move(i, i - 9, Constants.MoveType.JUMP, i - 5));
-                                    redHasJump = true;
-                                }
-
-                            }
-
                             if (squares[i].getPiece().getPieceType() == Constants.PieceType.KING) {
 
-                                if (squares[i + 4].getPiece() == null) {
-                                    legalMovesRed.add(new Move(i, i + 4));
-                                } else if (squares[i + 4].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.RED && i % 8 != 5) {
-                                    if (i < 25) {
-                                        if (squares[i + 7].getPiece() == null) {
-                                            legalMovesRed.add(new Move(i, i + 9, Constants.MoveType.JUMP, i + 4));
-                                            redHasJump = true;
-                                        }
+                                if (squares[i + 5].getPiece() == null) {
+                                    legalMovesRed.add(new Move(i, i + 5));
+                                } else if (i < 25 && squares[i + 5].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.BLACK && i % 8 != 0) {//black regular piece not in 2nd to last row
+                                    if (squares[i + 9].getPiece() == null) {
+                                        legalMovesRed.add(new Move(i, i + 9, Constants.MoveType.JUMP, i + 5));
+                                        redHasJump = true;
+                                    }
+                                }
+                            }
+                            if (i % 8 != 1) {
+                                if (squares[i - 5].getPiece() == null) {
+                                    legalMovesRed.add(new Move(i, i - 5));
+                                } else if (i > 8 && squares[i - 5].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.RED && i % 8 != 5) {
+                                    if (squares[i - 9].getPiece() == null) {
+                                        legalMovesRed.add(new Move(i, i - 9, Constants.MoveType.JUMP, i - 5));
+                                        redHasJump = true;
                                     }
 
                                 }
 
+                                if (squares[i].getPiece().getPieceType() == Constants.PieceType.KING) {
 
+                                    if (squares[i + 4].getPiece() == null) {
+                                        legalMovesRed.add(new Move(i, i + 4));
+                                    } else if (squares[i + 4].getPiece().getBelongsTo().getColor() == Constants.PlayerColor.RED && i % 8 != 5) {
+                                        if (i < 25) {
+                                            if (squares[i + 7].getPiece() == null) {
+                                                legalMovesRed.add(new Move(i, i + 9, Constants.MoveType.JUMP, i + 4));
+                                                redHasJump = true;
+                                            }
+                                        }
+
+                                    }
+
+
+                                }
                             }
+
                         }
 
                     }
-
                 }
-
             }
 
         }
