@@ -498,18 +498,9 @@ public class CurrentBoard {
                         }
 
                     }
-
                 }
             }
 
-        }
-        System.out.println("Black Moves");
-        for(Move m : getMovesBlack()) {
-            System.out.println("Move " + m.getStartSquareIndex() + " " + m.getTargetSquareIndex() + " " + m.getMoveType() + " " + m.getIndexOfJumpedSquare());
-        }
-        System.out.println("Red Moves");
-        for(Move m : getLegalMovesRed()) {
-            System.out.println("Move " + m.getStartSquareIndex() + " " + m.getTargetSquareIndex() + " " + m.getMoveType() + " " + m.getIndexOfJumpedSquare());
         }
 
     }
