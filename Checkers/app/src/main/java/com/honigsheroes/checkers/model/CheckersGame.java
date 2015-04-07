@@ -4,7 +4,6 @@ import com.honigsheroes.checkers.Constants;
 import com.honigsheroes.checkers.Constants.*;
 import android.content.Context;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.Random;
  * A checkers game has 2 players, and a current board.
  */
 public class CheckersGame{
-
 
     private Context context;
     private CurrentBoard board;
@@ -69,6 +67,7 @@ public class CheckersGame{
             if(secondSquareIndex != -1) {
                 move.setTargetSquareIndex(secondSquareIndex);
                 performMove();
+                board.getSquares()[firstSquareIndex].setActive(false);
                 if(followUpJump) {
                     firstSquareIndex = followUpJumpIndex;
                     secondSquareIndex = Constants.UNUSED_SQUARE;
@@ -172,16 +171,32 @@ public class CheckersGame{
         this.move = move;
     }
 
-    /**
-     * TODO: Thiago
-     * TODO: implement method to compare the move to the movelist for the player whose turn it is
-     * TODO: then we can figure out if its a legal move and return true/false accordingly
-     */
+    public boolean checkFollowUpJump(int squareIndex) {
+        Square s = board.getSquares()[squareIndex];
+        Piece p = s.getPiece();
+        Constants.PlayerColor pc = p.getBelongsTo().getColor();
+        if(pc == Constants.PlayerColor.RED) {
+            for(Move m : board.getLegalMovesRed()) {
+                if (m.getStartSquareIndex() == squareIndex && m.getMoveType() == Constants.MoveType.JUMP) {
+                    return true;
+                }
+            }
+        }
+        else if(pc == Constants.PlayerColor.BLACK) {
+            for(Move m : board.getLegalMovesBlack()) {
+                if (m.getStartSquareIndex() == squareIndex && m.getMoveType() == Constants.MoveType.JUMP) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public boolean checkIfLegalMove() {
         boolean legal = false;
 
         if(playerTurn == PlayerColor.BLACK) {
-            for(Move m : board.getMovesBlack()) {
+            for(Move m : board.getLegalMovesBlack()) {
                 if (m.getStartSquareIndex() == move.getStartSquareIndex() &&
                         m.getTargetSquareIndex() == move.getTargetSquareIndex()) {
                     if(!board.getHasJumpBlacK()) {
@@ -232,23 +247,19 @@ public class CheckersGame{
             board.getSquares()[move.getStartSquareIndex()].setActive(false);
 
             if(board.convertToKing(move.getTargetSquareIndex())) {
+                followUpJump = false;
                 board.brianCalculateLegalMoves();
                 startNextTurn();
                 return;
             }
 
-
-            board.brianCalculateLegalMoves();
-            if(move.getMoveType() == MoveType.JUMP && board.checkFollowUpJump(move.getTargetSquareIndex())) {
+            if(move.getMoveType() == MoveType.JUMP && checkFollowUpJump(move.getTargetSquareIndex())) {
                 followUpJumpIndex = move.getTargetSquareIndex();
                 followUpJump = true;
-//                firstSquareIndex = followUpJumpIndex;
-//                move.setStartSquareIndex(firstSquareIndex);
-//                board.getSquares()[firstSquareIndex].setActive(true);
-
             }
             else {
                 followUpJump = false;
+                followUpJumpIndex = -1;
                 startNextTurn();
                 return;
             }
@@ -261,8 +272,8 @@ public class CheckersGame{
                 displayMessage("You must Jump!");
             }
             else {
-                System.out.println(move.getStartSquareIndex());
-                System.out.println(move.getTargetSquareIndex());
+                System.out.println("Start index : " +  move.getStartSquareIndex());
+                System.out.println("Target index : " + move.getTargetSquareIndex());
                 displayMessage("Not a legal move, try again");
             }
 
@@ -272,35 +283,38 @@ public class CheckersGame{
 
     public void startNextTurn() {
 
-        checkWinConditions();
+        if(!checkWinConditions()) {
+            move = new Move(-1, -1);
+            if (playerTurn == PlayerColor.BLACK) {
+                playerTurn = PlayerColor.RED;
+                displayMessage(playerTwo.getName() + "'s turn to move.");
+            } else {
+                displayMessage(playerOne.getName() + "'s turn to move.");
+                playerTurn = PlayerColor.BLACK;
+            }
 
-        if(playerTurn == PlayerColor.BLACK) {
-            playerTurn = PlayerColor.RED;
-            displayMessage(playerTwo.getName() + "'s turn to move.");
-        }
-        else {
-            displayMessage(playerOne.getName() + "'s turn to move.");
-            playerTurn = PlayerColor.BLACK;
+            if (gameType == GameType.AI && playerTurn == PlayerColor.RED) {
+                //moveAI();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    moveAI(); } }, 1000);
+            }
         }
 
-        if(gameType == GameType.AI && playerTurn == PlayerColor.RED) {
-                moveAI();
-//            Handler handler = new Handler();
-//            handler.postDelayed(new Runnable() {
-//                public void run() {
-//                    moveAI(); } }, 1000);
-
-        }
     }
 
 
-    public void checkWinConditions() {
-        if (board.getNumBlackPieces()<=0){
+    public boolean checkWinConditions() {
+        if (board.getNumBlackPieces()<=0 || board.getLegalMovesBlack().isEmpty()){
             displayMessage(playerTwo.getName() + " is the winner!");
+            return true;
         }
-        else if (board.getNumRedPieces()<=0){
+        else if (board.getNumRedPieces()<=0 || board.getLegalMovesRed().isEmpty()){
             displayMessage(playerOne.getName() + " is the winner!");
+            return true;
         }
+        return false;
     }
 
     /**
@@ -337,15 +351,14 @@ public class CheckersGame{
 
         performMove();
         board.updateDisplay();
-        if(followUpJump) {
-            moveAI();
-        }
-
-//            Handler handler = new Handler();
-//            handler.postDelayed(new Runnable() {
-//                public void run() {
-//                    if(followUpJump) {
-//                    moveAI(); } } }, 1000);
+//        if(followUpJump) {
+//            moveAI();
+//        }
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    if(followUpJump) {
+                    moveAI(); } } }, 1000);
 
     }
 }
