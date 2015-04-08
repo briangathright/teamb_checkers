@@ -174,7 +174,7 @@ public class MainActivity extends Activity implements CheckersSystem{
 
     public void onClickAIGameButton(View view) {
         gameType =GameType.AI;
-        setContentView(R.layout.selectnames);
+        setContentView(R.layout.select_names);
 
     }
 
@@ -196,11 +196,11 @@ public class MainActivity extends Activity implements CheckersSystem{
         String playerOneName = player1ET.getText().toString();
         String playerTwoName = player2ET.getText().toString();
 
-        if(playerOneName.equals("")) {
-            playerOneName = "Player 1";
+        if(playerOneName.equals(getString(R.string.EmptyString))) {
+            playerOneName = getString(R.string.Player1Name);
         }
-        if(playerTwoName.equals("")) {
-            playerTwoName = "Player 2";
+        if(playerTwoName.equals(getString(R.string.EmptyString))) {
+            playerTwoName = getString(R.string.Player2Name);
         }
 
         playerOne.setName(playerOneName);
@@ -214,12 +214,12 @@ public class MainActivity extends Activity implements CheckersSystem{
 
             String playerOneName = player1ET.getText().toString();
 
-            if(playerOneName.equals("")) {
-                playerOneName = "Player 1";
+            if(playerOneName.equals(getString(R.string.EmptyString))) {
+                playerOneName = getString(R.string.Player1Name);
             }
 
             playerOne.setName(playerOneName);
-            playerTwo.setName("Computer player");
+            playerTwo.setName(getString(R.string.ComputerPlayerName));
 
             hideKeyboard(this);
             startGame();

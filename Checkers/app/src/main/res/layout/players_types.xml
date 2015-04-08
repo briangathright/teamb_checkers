@@ -7,7 +7,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="One Player"
+        android:text="@string/OnePlayer"
         android:id="@+id/button2"
         android:onClick="onClickAIGameButton"
         android:textStyle="bold"
@@ -24,7 +24,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Two Players"
+        android:text="@string/TwoPlayer"
         android:id="@+id/button3"
         android:onClick="onClickHumanGameButton"
         android:textStyle="bold"
