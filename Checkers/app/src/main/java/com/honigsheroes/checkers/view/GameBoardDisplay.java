@@ -22,8 +22,8 @@ import com.honigsheroes.checkers.model.Square;
  */
 public class GameBoardDisplay extends View implements GameBoardDisplayListener {
 
-    protected Square[] squares;
-    protected int touchedSquareIndex;
+    private Square[] squares;
+    private int touchedSquareIndex;
     private boolean boardDrawn = false;
     private Paint paint = new Paint();
     private Canvas canvas;
@@ -83,7 +83,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
 
 
 
-    public void drawBoard(Canvas canvas) {
+    private void drawBoard(Canvas canvas) {
         int squareWidth = getWidth() / 10;
         int squareHeight = getHeight() / 10;
 
@@ -133,7 +133,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         return false;
     }
 
-    public int findSquareIndex(MotionEvent e) {
+    private int findSquareIndex(MotionEvent e) {
         int x = (int) e.getX();
         int y = (int) e.getY();
         for (int i = 0; i < squares.length; i++) {
