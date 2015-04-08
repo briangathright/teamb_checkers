@@ -16,9 +16,9 @@
         android:textSize="@dimen/abc_text_size_title_material"
         android:background="#ffff8286"
 
-        android:layout_alignParentTop="true"
+        android:layout_marginBottom="88dp"
+        android:layout_above="@+id/button3"
         android:layout_alignStart="@+id/button3"
-        android:layout_marginTop="169dp"
         android:layout_alignEnd="@+id/button3" />
 
     <Button
@@ -32,21 +32,8 @@
         android:textColorHighlight="@color/highlighted_text_material_dark"
         android:textSize="@dimen/abc_text_size_title_material"
         android:background="#ffff8286"
-
-
-        android:layout_centerVertical="true"
+        android:layout_marginBottom="190dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/textView"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="231dp"
-
-
-
-        />
 </RelativeLayout>
