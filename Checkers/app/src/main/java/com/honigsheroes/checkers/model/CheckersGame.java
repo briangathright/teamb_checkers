@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -329,20 +330,86 @@ public class CheckersGame{
     public void moveAI() {
         ArrayList<Move> allMoves = board.getLegalMovesRed();
         ArrayList<Move> allJumps = new ArrayList<Move>();
+        ArrayList<Move> enemyMoves = board.getLegalMovesBlack();
+        ArrayList<Move> enemyJumps = new ArrayList<Move>();
+        boolean canKing = false;
+        Move moveToKing = null;
+
         for(Move m : allMoves) {
+            int targetSquareIndex = m.getTargetSquareIndex();
+            if(targetSquareIndex == 1 || targetSquareIndex == 2 || targetSquareIndex == 3 || targetSquareIndex == 4){ //AI  can king
+                canKing = true;
+                moveToKing = m;
+                if(board.getSquares()[moveToKing.getStartSquareIndex()].getPiece().getPieceType() == PieceType.KING) {
+                    canKing = false;
+                }
+            }
             if(m.getMoveType() == MoveType.JUMP) {
                 allJumps.add(m);
+            }
+        }
+        for(Move m : enemyMoves) {
+            if (m.getMoveType() == MoveType.JUMP) {
+                enemyJumps.add(m);
             }
         }
         if(allMoves.isEmpty()){
             return;
         }
         Random rand = new Random();
-        if(allJumps.isEmpty()){
-            int index = rand.nextInt(allMoves.size());
-            move = allMoves.get(index);
+        if(allJumps.isEmpty()) { //if AI doesn't have a jump
+            if(!enemyJumps.isEmpty()){ //if enemy has a jump
+                int index = rand.nextInt(enemyJumps.size());
+                Move m = enemyJumps.get(index);
+                int i = m.getTargetSquareIndex();
+                int j = m.getIndexOfJumpedSquare();
+                for(Move aiMove : allMoves) {
+                    if(aiMove.getTargetSquareIndex() == i) { //if AI can block the jump
+                        move = aiMove;
+                    }
+                    else if (aiMove.getStartSquareIndex() == j) { //if AI can move out of the jump
+                        move = aiMove;
+                    }
+                }
+            }
+            else if (canKing) { //if AI can king do it
+                move = moveToKing;
+            }
+            else { //default to a move
+                ArrayList<Move> goodMoves = new ArrayList<Move>();
+                boolean noGoodMove = true;
+                for(Move AIm : allMoves) { //check to see if we are potentially moving into a jump
+                    Square[] AISquares = new Square[board.getSquares().length];
+                    for (int i = 0; i < AISquares.length; i++) {
+                        Square s = board.getSquares()[i];
+                        if (s != null) {
+                            AISquares[i] = new Square(s.getRect(), s.getPiece());
+                        }
+                    }
+                    CurrentBoard AIBoard = new CurrentBoard(AISquares); //AI has own board
+                    AIBoard.performMove(AIm);
+                    ArrayList<Move> futureEnemyMoves = AIBoard.getLegalMovesBlack();
+                    boolean blackHasFutureJump = false;
+                    for(Move m : futureEnemyMoves) {
+                        if(m.getMoveType() == MoveType.JUMP) {
+                            blackHasFutureJump = true;
+                        }
+                    }
+                    if(!blackHasFutureJump){
+                        goodMoves.add(AIm);
+                    }
+                }
+                if(goodMoves.isEmpty()) { //we didn't find a good move so do a random one
+                    int index = rand.nextInt(allMoves.size());
+                    move = allMoves.get(index);
+                }
+                else{
+                    int index = rand.nextInt(goodMoves.size());
+                    move = goodMoves.get(index);
+                }
+            }
         }
-        else {
+        else { //AI must jump
             if (followUpJump) {
                 for (Move m : allJumps) {
                     if (m.getStartSquareIndex() == followUpJumpIndex) {
@@ -354,7 +421,11 @@ public class CheckersGame{
                 move = allJumps.get(index);
             }
         }
-
+        if(move.getStartSquareIndex() == -1) {
+            int index = rand.nextInt(allMoves.size());
+            move = allMoves.get(index);
+        }
+        System.out.println("AI MOVE " + move.getStartSquareIndex() + " " + move.getTargetSquareIndex());
         performMove();
         updateDisplay();
             Handler handler = new Handler();
