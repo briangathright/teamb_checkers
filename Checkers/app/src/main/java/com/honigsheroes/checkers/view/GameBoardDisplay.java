@@ -55,7 +55,8 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
     private void drawPieces(Canvas canvas) {
         paint.setTextSize(squares[0].getRect().height()/2);
         paint.setTextAlign(Paint.Align.CENTER);
-
+        int redCount = 12;
+        int blackCount = 12;
         for (int i = 1; i < squares.length; i++) {
             if (squares[i].getPiece() != null) {
 
@@ -64,13 +65,13 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
                     canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), (float) (squares[i].getRect().width() / 2.7), paint);
                     paint.setColor(Color.DKGRAY);
                     canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), squares[i].getRect().width() / 3, paint);
-
+                    blackCount--;
                 } else if (squares[i].getPiece().getBelongsTo().getColor().equals(Constants.PlayerColor.RED)) {
                     paint.setColor(Color.WHITE);
                     canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), (float) (squares[i].getRect().width() / 2.7), paint);
                     paint.setColor(Color.RED);
                     canvas.drawCircle(squares[i].getRect().exactCenterX(), squares[i].getRect().exactCenterY(), squares[i].getRect().width() / 3, paint);
-
+                    redCount--;
                 }
                 if (squares[i].getPiece().getPieceType().equals(Constants.PieceType.KING)) {
                     paint.setColor(Color.WHITE);
@@ -79,8 +80,43 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
 
             }
         }
-    }
+        drawDead(blackCount,redCount);
 
+    }
+    public void drawDead(int blackCount, int redCount){
+        paint.setTextSize((float)(squares[0].getRect().height()/2.2));
+
+        float blackXcoord = (float)(squares[29].getRect().left+squares[29].getRect().width()/2);
+        float redXcoord = (float)(squares[32].getRect().right+squares[32].getRect().width()/2);
+        for (int i = 1; i <= blackCount; i++){
+            paint.setColor(Color.WHITE);
+            canvas.drawCircle(blackXcoord, (float) (squares[29].getRect().bottom+squares[29].getRect().height()*1.5),(float)(squares[29].getRect().width()/2.7), paint);
+            paint.setColor(Color.DKGRAY);
+            canvas.drawCircle(blackXcoord, (float) (squares[29].getRect().bottom+squares[29].getRect().height()*1.5),(float)(squares[29].getRect().width()/3), paint);
+            if (i == blackCount) {
+
+                paint.setColor(Color.WHITE);
+                canvas.drawText(i+"",blackXcoord ,(float) (squares[29].getRect().bottom+squares[29].getRect().height()*1.65),paint);
+            }
+            blackXcoord += squares[29].getRect().width()/3.2;
+
+
+        }
+        for (int i = 1; i <= redCount; i++){
+            paint.setColor(Color.WHITE);
+            canvas.drawCircle(redXcoord, (float) (squares[32].getRect().bottom+squares[32].getRect().height()*1.5),(float)(squares[32].getRect().width()/2.7), paint);
+            paint.setColor(Color.RED);
+            canvas.drawCircle(redXcoord, (float) (squares[32].getRect().bottom+squares[32].getRect().height()*1.5),(float)(squares[32].getRect().width()/3), paint);
+            if (i == redCount) {
+
+                paint.setColor(Color.WHITE);
+                canvas.drawText(i+"",redXcoord,(float) (squares[32].getRect().bottom+squares[32].getRect().height()*1.65),paint);
+            }
+            redXcoord -= squares [32].getRect().width()/3.2;
+
+
+        }
+    }
 
 
     public void drawBoard(Canvas canvas) {
@@ -121,7 +157,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         paint.setColor(Color.WHITE);
 
 
-        paint.getTextBounds("Quit",0, "X".length(),r);
+        paint.getTextBounds("Quit",0, "Quit".length(),r);
         canvas.drawText("Quit",squares[0].getRect().centerX(),squares[0].getRect().height()/2 +r.height()/2,paint);
 
     }
