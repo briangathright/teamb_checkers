@@ -1,9 +1,6 @@
 package com.honigsheroes.checkers.model;
 
-import android.graphics.Rect;
-
 import com.honigsheroes.checkers.Constants;
-import com.honigsheroes.checkers.view.GameBoardDisplayListener;
 
 import java.util.ArrayList;
 
@@ -13,7 +10,6 @@ import java.util.ArrayList;
  * notifies view to update whenever an actual change occurs
  */
 public class CurrentBoard {
-    private GameBoardDisplayListener listener;
     private Square[] squares;
     private int numRedPieces = 12;
     private int numBlackPieces = 12;
@@ -22,27 +18,19 @@ public class CurrentBoard {
     private ArrayList<Move> legalMovesBlack = new ArrayList<Move>();
     private ArrayList<Move> legalMovesRed = new ArrayList<Move>();
 
-    public CurrentBoard(Square[] squares, GameBoardDisplayListener listener) {
+    public CurrentBoard(Square[] squares) {
         this.squares = squares;
-        this.listener = listener;
-    }
-
-
-    public void updateDisplay() { //use getters and setters
-        listener.update();
+        calculateLegalMoves();
     }
 
     public Square[] getSquares() {
         return squares;
     }
 
-    public void setSquares(Square[] squares) {
-        this.squares = squares;
-    }
-
-    public boolean getHasJumpBlacK() {
+    public boolean getHasJumpBlack() {
         return blackHasJump;
     }
+
     public boolean getHasJumpRed() {
         return redHasJump;
     }
@@ -55,15 +43,15 @@ public class CurrentBoard {
         return numRedPieces;
     }
 
-    public void decreaseNumBlackPieces() {
+    private void decreaseNumBlackPieces() {
         numBlackPieces--;
     }
 
-    public void decreaseNumRedPieces() {
+    private void decreaseNumRedPieces() {
         numRedPieces--;
     }
 
-    public void brianCalculateLegalMoves() {
+    private void calculateLegalMoves() {
         for (int row = 0; row <= 7; row++) {
             System.err.println("Checking row: " + row);
             for (int i = 1; i <= 4; i++) {
@@ -401,10 +389,10 @@ public class CurrentBoard {
         redHasJump=false;
         legalMovesBlack.clear();
         legalMovesRed.clear();
-        brianCalculateLegalMoves();
+        calculateLegalMoves();
     }
 
-    public void removePiece(Move move) {
+    private void removePiece(Move move) {
         if (squares[move.getIndexOfJumpedSquare()].getPiece().getBelongsTo().getColor()==Constants.PlayerColor.BLACK){
             squares[move.getIndexOfJumpedSquare()].setPiece(null);
             decreaseNumBlackPieces();
@@ -420,6 +408,7 @@ public class CurrentBoard {
             if (squares[squareIndex].getPiece().getBelongsTo().getColor()==Constants.PlayerColor.RED){
                 if (squareIndex==1 || squareIndex==2 ||squareIndex==3||squareIndex==4){
                     squares[squareIndex].getPiece().setPieceType(Constants.PieceType.KING);
+                    calculateLegalMoves();
                     return true;
                 }
 
@@ -427,6 +416,7 @@ public class CurrentBoard {
             else if (squares[squareIndex].getPiece().getBelongsTo().getColor()==Constants.PlayerColor.BLACK) {
                 if (squareIndex == 29 || squareIndex == 30 || squareIndex == 31 || squareIndex == 32) {
                     squares[squareIndex].getPiece().setPieceType(Constants.PieceType.KING);
+                    calculateLegalMoves();
                     return true;
                 }
             }

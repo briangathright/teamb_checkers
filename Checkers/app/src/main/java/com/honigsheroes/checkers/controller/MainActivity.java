@@ -25,13 +25,13 @@ import com.honigsheroes.checkers.view.GameBoardDisplay;
 /** Main activity for Honig's Heroes' Checkers */
 public class MainActivity extends Activity implements CheckersSystem{
 
-    protected Square[] squares = new Square[33];
-    protected StateOfGame stateOfGame; //status of currentGame
-    protected CheckersGame currentGame; //the model
-    protected GameBoardDisplay boardDisplay;
-    protected Player playerOne;
-    protected Player playerTwo;
-    protected GameType gameType;
+    private Square[] squares = new Square[33];
+    private StateOfGame stateOfGame; //status of currentGame
+    private CheckersGame currentGame; //the model
+    private GameBoardDisplay boardDisplay;
+    private Player playerOne;
+    private Player playerTwo;
+    private GameType gameType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements CheckersSystem{
         stateOfGame = StateOfGame.READY; //so we can start games.
         setContentView(R.layout.activity_main); //main menu layout
     }
-    public void createSquares(){
+    private void createSquares(){
         // get the width and height of the screen. Create initial set of squares for board
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -72,10 +72,10 @@ public class MainActivity extends Activity implements CheckersSystem{
             }
             for (int column = 0; column < 4; column++) {
                 if(row < 3) {
-                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerOne, index, PieceType.MAN));
+                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerOne, PieceType.MAN));
                 }
                 else if (row > 4) {
-                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerTwo,index, PieceType.MAN));
+                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerTwo, PieceType.MAN));
                 }
                 else {
                     squares[index] = new Square(new Rect(leftx, topy, rightx, boty), null);
@@ -92,7 +92,6 @@ public class MainActivity extends Activity implements CheckersSystem{
     @Override
     protected void onStart() {
         super.onStart();
-        //startGame(); //currently hard coded to just start a game, which just displays board
     }
 
     @Override
@@ -111,9 +110,8 @@ public class MainActivity extends Activity implements CheckersSystem{
 
             createSquares();
             boardDisplay = new GameBoardDisplay(squares, this, playerOne.getName(), playerTwo.getName());
-            CurrentBoard cboard = new CurrentBoard(squares, boardDisplay);
-            currentGame = new CheckersGame(this, cboard, playerOne, playerTwo, gameType); //hardcoded rightnow to start human game
-
+            CurrentBoard cboard = new CurrentBoard(squares);
+            currentGame = new CheckersGame(this, boardDisplay, cboard, playerOne, playerTwo, gameType);
             setContentView(boardDisplay); //displays the board
             return true;
         }
@@ -137,6 +135,7 @@ public class MainActivity extends Activity implements CheckersSystem{
         return false;
     }
 
+    //function to prompt confirmation to quit game
     private void quitGame() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Quit Game?");
@@ -232,7 +231,7 @@ public class MainActivity extends Activity implements CheckersSystem{
 
 
     }
-    public static void hideKeyboard(Activity activity) {
+    private static void hideKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
         View view = activity.getCurrentFocus();

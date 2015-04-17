@@ -2,6 +2,8 @@ package com.honigsheroes.checkers.model;
 
 import com.honigsheroes.checkers.Constants;
 import com.honigsheroes.checkers.Constants.*;
+import com.honigsheroes.checkers.view.GameBoardDisplayListener;
+
 import android.content.Context;
 import android.os.Handler;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import java.util.Random;
 public class CheckersGame{
 
     private Context context;
+    private GameBoardDisplayListener listener;
     private CurrentBoard board;
     private Move move = new Move(-1, -1);
     private int firstSquareIndex = -1;
@@ -29,17 +32,21 @@ public class CheckersGame{
 
     private Toast mToast;
 
-    public CheckersGame(Context context, CurrentBoard board, Player playerOne, Player playerTwo, GameType gameType) {
+    public CheckersGame(Context context, GameBoardDisplayListener listener, CurrentBoard board, Player playerOne, Player playerTwo, GameType gameType) {
         this.board = board;
+        this.listener = listener;
         this.context = context;
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
         this.gameType = gameType;
-        this.board.brianCalculateLegalMoves();
         displayMessage(playerOne.getName() + "'s turn to move.");
     }
 
-    public void displayMessage(String message) {
+    private void updateDisplay() { //use getters and setters
+        listener.update();
+    }
+
+    private void displayMessage(String message) {
         if(mToast == null) {
             mToast = Toast.makeText(context.getApplicationContext(), message , Toast.LENGTH_SHORT);
         }
@@ -63,7 +70,7 @@ public class CheckersGame{
             move.setStartSquareIndex(firstSquareIndex);
             board.getSquares()[firstSquareIndex].setActive(true);
             secondSquareIndex = touchedSquareIndex;
-            board.updateDisplay();
+            updateDisplay();
             if(secondSquareIndex != -1) {
                 move.setTargetSquareIndex(secondSquareIndex);
                 performMove();
@@ -79,7 +86,7 @@ public class CheckersGame{
                     firstSquareIndex = Constants.UNUSED_SQUARE;
                     secondSquareIndex = Constants.UNUSED_SQUARE;
                 }
-                board.updateDisplay();
+                updateDisplay();
                 return;
             }
             else{
@@ -95,7 +102,7 @@ public class CheckersGame{
             firstSquareIndex = Constants.UNUSED_SQUARE; //reset the first square
             secondSquareIndex = Constants.UNUSED_SQUARE; //reset the second square
             //displayMessage("You may only select black squares.");
-            board.updateDisplay();
+            updateDisplay();
             return;
         }
         if(firstSquareIndex == Constants.UNUSED_SQUARE //if this is the first square touched
@@ -103,7 +110,7 @@ public class CheckersGame{
                 && board.getSquares()[touchedSquareIndex].getPiece().getBelongsTo().getColor()==playerTurn) { //and the piece belongs to the player with control
             firstSquareIndex = touchedSquareIndex; //set the first square
             board.getSquares()[firstSquareIndex].setActive(true); //highlight the square
-            board.updateDisplay();
+            updateDisplay();
             return;
         }
         else { //else its the second square touched
@@ -112,14 +119,14 @@ public class CheckersGame{
 
             if(firstSquareIndex == Constants.UNUSED_SQUARE) { //if the first square is not set
                 //displayMessage("You may only select your own pieces.");
-                board.updateDisplay();
+                updateDisplay();
                 secondSquareIndex = Constants.UNUSED_SQUARE;
                 return;
             }
 
             if(firstSquareIndex == secondSquareIndex) { //if the first and 2nd are the same
                 board.getSquares()[firstSquareIndex].setActive(false); //unhighlight
-                board.updateDisplay();
+                updateDisplay();
                 firstSquareIndex = Constants.UNUSED_SQUARE; //reset square
                 secondSquareIndex = Constants.UNUSED_SQUARE; //reset square
                 return;
@@ -131,7 +138,7 @@ public class CheckersGame{
             firstSquareIndex = Constants.UNUSED_SQUARE;
             secondSquareIndex = Constants.UNUSED_SQUARE;
             //displayMessage("You may only move to unoccupied black squares.");
-            board.updateDisplay();
+            updateDisplay();
             return;
         }
         move.setStartSquareIndex(firstSquareIndex);
@@ -149,7 +156,7 @@ public class CheckersGame{
             firstSquareIndex = Constants.UNUSED_SQUARE;
             secondSquareIndex = Constants.UNUSED_SQUARE;
         }
-        board.updateDisplay();
+        updateDisplay();
         }
 
 
@@ -199,7 +206,7 @@ public class CheckersGame{
             for(Move m : board.getLegalMovesBlack()) {
                 if (m.getStartSquareIndex() == move.getStartSquareIndex() &&
                         m.getTargetSquareIndex() == move.getTargetSquareIndex()) {
-                    if(!board.getHasJumpBlacK()) {
+                    if(!board.getHasJumpBlack()) {
                         move.setMoveType(MoveType.STANDARD);
                         legal = true;
                         break;
@@ -248,7 +255,6 @@ public class CheckersGame{
 
             if(board.convertToKing(move.getTargetSquareIndex())) {
                 followUpJump = false;
-                board.brianCalculateLegalMoves();
                 startNextTurn();
                 return;
             }
@@ -265,7 +271,7 @@ public class CheckersGame{
             }
         }
         else {
-            if(board.getHasJumpBlacK() && playerTurn == PlayerColor.BLACK) {
+            if(board.getHasJumpBlack() && playerTurn == PlayerColor.BLACK) {
                 displayMessage("You must Jump!");
             }
             else if(board.getHasJumpRed() && playerTurn == PlayerColor.RED) {
@@ -350,10 +356,7 @@ public class CheckersGame{
         }
 
         performMove();
-        board.updateDisplay();
-//        if(followUpJump) {
-//            moveAI();
-//        }
+        updateDisplay();
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run() {
