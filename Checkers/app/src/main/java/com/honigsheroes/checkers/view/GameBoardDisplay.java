@@ -98,7 +98,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
                 paint.setColor(Color.WHITE);
                 canvas.drawText(i+"",blackXcoord ,(float) (squares[29].getRect().height()*9+squares[29].getRect().height()*1.65),paint);
             }
-            blackXcoord += squares[29].getRect().width()/3.2;
+            blackXcoord += squares[29].getRect().width()/3.3;
 
 
         }
@@ -112,7 +112,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
                 paint.setColor(Color.WHITE);
                 canvas.drawText(i+"",redXcoord,(float) (squares[29].getRect().height()*9+squares[29].getRect().height()*1.65),paint);
             }
-            redXcoord -= squares [32].getRect().width()/3.2;
+            redXcoord -= squares [32].getRect().width()/3.3;
 
 
         }
