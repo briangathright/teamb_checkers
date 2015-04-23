@@ -18,7 +18,7 @@ public class CheckersGameTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         playerTurn= PlayerColor.BLACK;
-        board=new CurrentBoard(squares);
+//        board=new CurrentBoard(squares);
 
     }
 
