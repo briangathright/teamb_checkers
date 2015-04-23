@@ -28,7 +28,11 @@ public class CheckersGameTest extends TestCase {
     }
 
     public void testCheckWinConditions(){
+        assertEquals(2,2);
+    }
 
+    public void testAA(){
+        assertEquals(2,3);
     }
 
 
