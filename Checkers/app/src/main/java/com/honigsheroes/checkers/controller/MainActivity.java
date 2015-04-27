@@ -24,7 +24,7 @@ import com.honigsheroes.checkers.view.GameBoardDisplay;
 
 /** Main activity for Honig's Heroes' Checkers */
 public class MainActivity extends Activity implements CheckersSystem{
-
+    private int whichplayer = 1;
     private Square[] squares = new Square[33];
     private StateOfGame stateOfGame; //status of currentGame
     private CheckersGame currentGame; //the model
@@ -60,6 +60,9 @@ public class MainActivity extends Activity implements CheckersSystem{
         int topy = squareHeight;
         int boty = squareHeight * 2;
         int index = 32;
+        if (whichplayer==2) {
+            index = 1;
+        }
         squares[0]= new Square(new Rect(squareWidth*9,0,squareWidth*10,squareHeight),null);
         for (int row = 0; row < 8; row++) {
             if(row%2 == 0) {
@@ -72,17 +75,29 @@ public class MainActivity extends Activity implements CheckersSystem{
             }
             for (int column = 0; column < 4; column++) {
                 if(row < 3) {
-                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerTwo, PieceType.MAN));
+                    if (whichplayer==2){
+                        squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerOne, PieceType.MAN));
+                    } else {
+                        squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerTwo, PieceType.MAN));
+                    }
                 }
                 else if (row > 4) {
-                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerOne, PieceType.MAN));
+                    if (whichplayer ==2) {
+                        squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerTwo, PieceType.MAN));
+                    }else {
+                        squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerOne, PieceType.MAN));
+                    }
                 }
                 else {
                     squares[index] = new Square(new Rect(leftx, topy, rightx, boty), null);
                 }
                 leftx += squareWidth * 2;
                 rightx += squareWidth * 2;
-                index--;
+                if (whichplayer ==2){
+                    index++;
+                }else {
+                    index--;
+                }
             }
             topy = boty;
             boty += squareHeight;

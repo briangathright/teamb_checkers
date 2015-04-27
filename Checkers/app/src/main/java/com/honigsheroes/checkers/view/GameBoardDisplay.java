@@ -129,7 +129,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
 
 
         paint.setColor(Color.RED);
-        canvas.drawRect(squareWidth, squares[32].getRect().top, squareWidth * 9, squares[1].getRect().bottom, paint);
+        canvas.drawRect(squareWidth, squares[32].getRect().height(), squareWidth * 9, squares[1].getRect().height()*9, paint);
 
         paint.setColor(Color.BLACK);
 

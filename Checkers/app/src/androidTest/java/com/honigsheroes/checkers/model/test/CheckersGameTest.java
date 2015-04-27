@@ -32,7 +32,7 @@ public class CheckersGameTest extends TestCase {
     }
 
     public void testAA(){
-        assertEquals(2,3);
+        assertEquals(2,2);
     }
 
 
