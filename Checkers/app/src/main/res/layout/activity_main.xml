@@ -4,8 +4,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
-    android:background="@drawable/background15"
-    android:id="@+id/startButton">
+    android:background="#ffd2b48c">
 
 
     <Button
@@ -18,7 +17,7 @@
         android:textColor="#ff0c0c0e"
         android:textColorHighlight="@color/highlighted_text_material_dark"
         android:textSize="@dimen/abc_text_size_title_material"
-        android:background="#d2b48c"
+        android:background="#ff008000"
         android:layout_marginBottom="67dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />

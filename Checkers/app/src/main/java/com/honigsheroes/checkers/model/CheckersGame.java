@@ -5,7 +5,9 @@ import com.honigsheroes.checkers.Constants.*;
 import com.honigsheroes.checkers.view.GameBoardDisplayListener;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
+import android.view.View;
 import android.widget.Toast;
 
 import java.lang.reflect.Array;
@@ -55,6 +57,8 @@ public class CheckersGame{
     private void displayMessage(String message) {
         if(mToast == null) {
             mToast = Toast.makeText(context.getApplicationContext(), message , Toast.LENGTH_SHORT);
+            View view = mToast.getView();
+            view.setBackgroundColor(Color.rgb(0, 128, 0));
         }
         else {
             mToast.setText(message);

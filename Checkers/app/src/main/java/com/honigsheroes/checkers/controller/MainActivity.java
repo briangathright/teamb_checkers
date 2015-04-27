@@ -126,8 +126,6 @@ public class MainActivity extends Activity implements CheckersSystem{
             CurrentBoard cboard = new CurrentBoard(squares);
             currentGame = new CheckersGame(this, boardDisplay, cboard, playerOne, playerTwo, gameType);
             setContentView(boardDisplay); //displays the board
-            Drawable d = getResources().getDrawable(R.drawable.background16);
-            boardDisplay.setBackground(d);
             return true;
         }
         return false;

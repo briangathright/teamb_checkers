@@ -130,8 +130,8 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         int squareWidth = getWidth() / 10;
 
 
-        //paint.setColor(Color.rgb(139,16,19));//this is the paint used for background
-        //canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
+        paint.setColor(Color.rgb(210,180,140));//this is the paint used for background
+        canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
 
 
 
