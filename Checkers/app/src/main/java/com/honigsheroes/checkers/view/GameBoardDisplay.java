@@ -155,11 +155,11 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         paint.setTextSize(squares[0].getRect().height()/2);
         paint.setTextAlign(Paint.Align.CENTER);
         Rect r = new Rect();
-        paint.getTextBounds(playerOneName,0,playerOneName.length(),r);
-        canvas.drawText(playerOneName, squareWidth*5 , squareHeight/2 + r.height()/2, paint);
-        r = new Rect();
         paint.getTextBounds(playerTwoName,0,playerTwoName.length(),r);
-        canvas.drawText(playerTwoName, (float)squareWidth*5 , (float) ((float)squareHeight*9.5), paint);
+        canvas.drawText(playerTwoName, squareWidth*5 , squareHeight/2 + r.height()/2, paint);
+        r = new Rect();
+        paint.getTextBounds(playerOneName,0,playerOneName.length(),r);
+        canvas.drawText(playerOneName, (float)squareWidth*5 , (float) ((float)squareHeight*9.5), paint);
         paint.setColor(Color.RED);
         canvas.drawRect(squares[0].getRect(), paint);
         paint.setColor(Color.WHITE);
