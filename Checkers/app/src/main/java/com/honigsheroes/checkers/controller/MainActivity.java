@@ -45,6 +45,11 @@ public class MainActivity extends Activity implements CheckersSystem{
         stateOfGame = StateOfGame.READY; //so we can start games.
         setContentView(R.layout.activity_main); //main menu layout
     }
+
+    /**
+     * This method creates the Checkers Board
+    */
+
     private void createSquares(){
         // get the width and height of the screen. Create initial set of squares for board
 
@@ -62,7 +67,7 @@ public class MainActivity extends Activity implements CheckersSystem{
         int rightx = squareWidth * 3;
         int topy = squareHeight;
         int boty = squareHeight * 2;
-        int index = 1;
+        int index = 32;
         squares[0]= new Square(new Rect(squareWidth*9,0,squareWidth*10,squareHeight),null);
         for (int row = 0; row < 8; row++) {
             if(row%2 == 0) {
@@ -75,17 +80,17 @@ public class MainActivity extends Activity implements CheckersSystem{
             }
             for (int column = 0; column < 4; column++) {
                 if(row < 3) {
-                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerOne, PieceType.MAN));
+                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerTwo, PieceType.MAN));
                 }
                 else if (row > 4) {
-                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerTwo, PieceType.MAN));
+                    squares[index] = new Square(new Rect(leftx, topy, rightx, boty), new Piece(playerOne, PieceType.MAN));
                 }
                 else {
                     squares[index] = new Square(new Rect(leftx, topy, rightx, boty), null);
                 }
                 leftx += squareWidth * 2;
                 rightx += squareWidth * 2;
-                index++;
+                index--;
             }
             topy = boty;
             boty += squareHeight;
@@ -103,13 +108,18 @@ public class MainActivity extends Activity implements CheckersSystem{
     }
 
 
-    /** Starts a game instance assuming there isn't one already.*/
+    /** Starts a game instance assuming there isn't one already.
+     * This function returns the start of the game if its true,
+     * and false if there is some error or issue
+     *
+     * */
     @Override
     public boolean startGame() {
         if (stateOfGame.equals(StateOfGame.READY)) {
             stateOfGame = StateOfGame.PLAYING;
 
             //other initialization stuff
+
 
             createSquares();
             boardDisplay = new GameBoardDisplay(squares, this, playerOne.getName(), playerTwo.getName());
@@ -168,20 +178,21 @@ public class MainActivity extends Activity implements CheckersSystem{
 
 
 
-
+// this method implements the start button so that when it this button is clicked
+// it goes to the page where the player types are to be chosen
     public void onClickStartButton(View view) {
         setContentView(R.layout.players_types);
 
     }
 
-
+//this method implements the AI option of the player type to be played against the player
 
     public void onClickAIGameButton(View view) {
         gameType =GameType.AI;
         setContentView(R.layout.select_names);
 
     }
-
+//this method implements the player type of two humans playing against each other
 
     public void onClickHumanGameButton(View view) {
         gameType =GameType.HUMAN;
@@ -189,7 +200,7 @@ public class MainActivity extends Activity implements CheckersSystem{
 
     }
 
-
+//this function implements the Continue button where the player names are entered 
     public void onClickContinueButton(View view) {
 
 

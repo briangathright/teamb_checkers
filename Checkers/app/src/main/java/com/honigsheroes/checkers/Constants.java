@@ -43,7 +43,7 @@ public class Constants {
      * AI = one human vs one AI
      */
     public enum GameType {
-        HUMAN, AI
+        HUMAN, AI, REMOTE
     }
 
     /**

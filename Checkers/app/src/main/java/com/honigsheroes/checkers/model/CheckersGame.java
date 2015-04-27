@@ -32,7 +32,6 @@ public class CheckersGame{
     private PlayerColor playerTurn= PlayerColor.BLACK;
 
     private Toast mToast;
-
     public CheckersGame(Context context, GameBoardDisplayListener listener, CurrentBoard board, Player playerOne, Player playerTwo, GameType gameType) {
         this.board = board;
         this.listener = listener;
@@ -43,9 +42,15 @@ public class CheckersGame{
         displayMessage(playerOne.getName() + "'s turn to move.");
     }
 
+    /**
+     *
+     *
+     */
     private void updateDisplay() { //use getters and setters
         listener.update();
     }
+
+    //this function displayMessage takes string and displays the message
 
     private void displayMessage(String message) {
         if(mToast == null) {
@@ -87,6 +92,8 @@ public class CheckersGame{
                     firstSquareIndex = Constants.UNUSED_SQUARE;
                     secondSquareIndex = Constants.UNUSED_SQUARE;
                 }
+
+
                 updateDisplay();
                 return;
             }
@@ -290,15 +297,16 @@ public class CheckersGame{
 
     public void startNextTurn() {
 
+        if (playerTurn == PlayerColor.BLACK) {
+            playerTurn = PlayerColor.RED;
+            displayMessage(playerTwo.getName() + "'s turn to move.");
+        } else {
+            displayMessage(playerOne.getName() + "'s turn to move.");
+            playerTurn = PlayerColor.BLACK;
+        }
+
         if(!checkWinConditions()) {
             move = new Move(-1, -1);
-            if (playerTurn == PlayerColor.BLACK) {
-                playerTurn = PlayerColor.RED;
-                displayMessage(playerTwo.getName() + "'s turn to move.");
-            } else {
-                displayMessage(playerOne.getName() + "'s turn to move.");
-                playerTurn = PlayerColor.BLACK;
-            }
 
             if (gameType == GameType.AI && playerTurn == PlayerColor.RED) {
                 //moveAI();
@@ -313,11 +321,11 @@ public class CheckersGame{
 
 
     public boolean checkWinConditions() {
-        if (board.getNumBlackPieces()<=0 || board.getLegalMovesBlack().isEmpty()){
+        if (playerTurn == PlayerColor.BLACK && (board.getNumBlackPieces()<=0 || board.getLegalMovesBlack().isEmpty())){
             displayMessage(playerTwo.getName() + " is the winner!");
             return true;
         }
-        else if (board.getNumRedPieces()<=0 || board.getLegalMovesRed().isEmpty()){
+        else if (playerTurn == PlayerColor.RED && (board.getNumRedPieces()<=0 || board.getLegalMovesRed().isEmpty())){
             displayMessage(playerOne.getName() + " is the winner!");
             return true;
         }
