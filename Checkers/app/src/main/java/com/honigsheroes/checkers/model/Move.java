@@ -24,10 +24,10 @@ public class Move {
     /**
      *This constructs the checkers with the initial position ,
      * the target position, the moves of the checkers and the index of the jumped square
-     * @param startSquareIndex
-     * @param targetSquareIndex
-     * @param moveType
-     * @param indexOfJumpedSquare
+     * @param startSquareIndex  the index for the piece we want to move
+     * @param targetSquareIndex the index for the place where want to move the piece
+     * @param moveType  jump, reqular move
+     * @param indexOfJumpedSquare the index of the captured piece
      */
     public Move (int startSquareIndex, int targetSquareIndex, MoveType moveType,int indexOfJumpedSquare){
         this.startSquareIndex = startSquareIndex;
