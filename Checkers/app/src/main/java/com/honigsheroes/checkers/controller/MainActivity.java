@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -46,7 +47,9 @@ public class MainActivity extends Activity implements CheckersSystem{
     }
     private void createSquares(){
         // get the width and height of the screen. Create initial set of squares for board
-        Display display = getWindowManager().getDefaultDisplay();
+
+        Display display =  getWindowManager().getDefaultDisplay();
+
         Point size = new Point();
         display.getSize(size);
 
@@ -113,6 +116,8 @@ public class MainActivity extends Activity implements CheckersSystem{
             CurrentBoard cboard = new CurrentBoard(squares);
             currentGame = new CheckersGame(this, boardDisplay, cboard, playerOne, playerTwo, gameType);
             setContentView(boardDisplay); //displays the board
+            Drawable d = getResources().getDrawable(R.drawable.background16);
+            boardDisplay.setBackground(d);
             return true;
         }
         return false;

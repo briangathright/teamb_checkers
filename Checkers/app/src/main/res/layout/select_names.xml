@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-        android:background="#ff87e0ff">
+    android:background="@drawable/background15"
+    >
 
         <EditText
             android:layout_width="match_parent"
@@ -17,17 +18,15 @@
             android:layout_height="wrap_content"
             android:text="@string/Continue"
             android:id="@+id/button4"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
             android:clickable="true"
             android:onClick="onClickContinueButton"
             android:textStyle="bold"
             android:textColor="#ff0c0c0e"
             android:textColorHighlight="@color/highlighted_text_material_dark"
             android:textSize="@dimen/abc_text_size_title_material"
-            android:background="#ffff8286"
+            android:background="#d2b48c"
 
 
-
-            />
+            android:layout_below="@+id/player1EditText"
+            android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -1,15 +1,20 @@
 package com.honigsheroes.checkers.view;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.honigsheroes.checkers.Constants;
+import com.honigsheroes.checkers.R;
 import com.honigsheroes.checkers.model.CheckersGame;
 import com.honigsheroes.checkers.model.Move;
 import com.honigsheroes.checkers.model.Player;
@@ -124,8 +129,10 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         int squareHeight = getHeight() / 10;
 
 
-        paint.setColor(Color.rgb(135,224,255));//this is the paint used for background
-        canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
+        //paint.setColor(Color.rgb(139,16,19));//this is the paint used for background
+        //canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
+
+
 
 
         paint.setColor(Color.RED);
