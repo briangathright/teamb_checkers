@@ -32,7 +32,6 @@ public class CheckersGame{
     private PlayerColor playerTurn= PlayerColor.BLACK;
 
     private Toast mToast;
-
     public CheckersGame(Context context, GameBoardDisplayListener listener, CurrentBoard board, Player playerOne, Player playerTwo, GameType gameType) {
         this.board = board;
         this.listener = listener;
@@ -43,9 +42,15 @@ public class CheckersGame{
         displayMessage(playerOne.getName() + "'s turn to move.");
     }
 
+    /**
+     *
+     *
+     */
     private void updateDisplay() { //use getters and setters
         listener.update();
     }
+
+    //this function displayMessage takes string and displays the message
 
     private void displayMessage(String message) {
         if(mToast == null) {
@@ -87,6 +92,8 @@ public class CheckersGame{
                     firstSquareIndex = Constants.UNUSED_SQUARE;
                     secondSquareIndex = Constants.UNUSED_SQUARE;
                 }
+
+
                 updateDisplay();
                 return;
             }

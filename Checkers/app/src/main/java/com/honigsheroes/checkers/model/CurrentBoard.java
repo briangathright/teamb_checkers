@@ -50,6 +50,10 @@ public class CurrentBoard {
     private void decreaseNumRedPieces() {
         numRedPieces--;
     }
+/**
+ *  this uses the board to check the legal moves on the board
+ *
+  */
 
     private void calculateLegalMoves() {
         for (int row = 0; row <= 7; row++) {
