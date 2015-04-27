@@ -35,13 +35,15 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
     private String playerOneName;
     private String playerTwoName;
     private Context context;
-
+    private float squareHeight;
+    private float squareWidth;
     public GameBoardDisplay(Square[] squares, Context context, String playerOneName, String playerTwoName) {
         super(context);
         this.context = context;
         this.playerOneName = playerOneName;
         this.playerTwoName = playerTwoName;
-
+        this.squareWidth = squares[0].getRect().width();
+        this.squareHeight= squares[0].getRect().height();
         this.squares = squares;
     }
 
@@ -91,33 +93,33 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
     public void drawDead(int blackCount, int redCount){
         paint.setTextSize((float)(squares[0].getRect().height()/2.2));
 
-        float blackXcoord = (float)(squares[29].getRect().left+squares[29].getRect().width()/2);
-        float redXcoord = (float)(squares[32].getRect().right+squares[32].getRect().width()/2);
+        float blackXcoord = (float)(squareWidth*1.5);
+        float redXcoord = (float)(squareHeight*8.5);
         for (int i = 1; i <= blackCount; i++){
             paint.setColor(Color.WHITE);
-            canvas.drawCircle(blackXcoord, (float) (squares[29].getRect().bottom+squares[29].getRect().height()*1.5),(float)(squares[29].getRect().width()/2.7), paint);
+            canvas.drawCircle(blackXcoord, (float) (squareHeight*10.5),(float)(squareWidth/2.7), paint);
             paint.setColor(Color.DKGRAY);
-            canvas.drawCircle(blackXcoord, (float) (squares[29].getRect().bottom+squares[29].getRect().height()*1.5),(float)(squares[29].getRect().width()/3), paint);
+            canvas.drawCircle(blackXcoord, (float) (squareHeight*10.5),(float)(squareWidth/3), paint);
             if (i == blackCount) {
 
                 paint.setColor(Color.WHITE);
-                canvas.drawText(i+"",blackXcoord ,(float) (squares[29].getRect().bottom+squares[29].getRect().height()*1.65),paint);
+                canvas.drawText(i+"",blackXcoord ,(float) (squareHeight*10.65),paint);
             }
-            blackXcoord += squares[29].getRect().width()/3.2;
+            blackXcoord += squareWidth/3.2;
 
 
         }
         for (int i = 1; i <= redCount; i++){
             paint.setColor(Color.WHITE);
-            canvas.drawCircle(redXcoord, (float) (squares[32].getRect().bottom+squares[32].getRect().height()*1.5),(float)(squares[32].getRect().width()/2.7), paint);
+            canvas.drawCircle(redXcoord, (float) (squareHeight*10.5),(float)(squareWidth/2.7), paint);
             paint.setColor(Color.RED);
-            canvas.drawCircle(redXcoord, (float) (squares[32].getRect().bottom+squares[32].getRect().height()*1.5),(float)(squares[32].getRect().width()/3), paint);
+            canvas.drawCircle(redXcoord, (float) (squareHeight*10.5),(float)(squareWidth/3), paint);
             if (i == redCount) {
 
                 paint.setColor(Color.WHITE);
-                canvas.drawText(i+"",redXcoord,(float) (squares[32].getRect().bottom+squares[32].getRect().height()*1.65),paint);
+                canvas.drawText(i+"",redXcoord,(float) (squareHeight*10.65),paint);
             }
-            redXcoord -= squares [32].getRect().width()/3.2;
+            redXcoord -= squareWidth/3.3;
 
 
         }
@@ -126,7 +128,6 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
 
     public void drawBoard(Canvas canvas) {
         int squareWidth = getWidth() / 10;
-        int squareHeight = getHeight() / 10;
 
 
         //paint.setColor(Color.rgb(139,16,19));//this is the paint used for background
@@ -136,7 +137,7 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
 
 
         paint.setColor(Color.RED);
-        canvas.drawRect(squareWidth, squares[1].getRect().top, squareWidth * 9, squares[32].getRect().bottom, paint);
+        canvas.drawRect(squareWidth, squareHeight, squareWidth * 9, squareHeight*9, paint);
 
         paint.setColor(Color.BLACK);
 
@@ -155,10 +156,10 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         paint.setTextAlign(Paint.Align.CENTER);
         Rect r = new Rect();
         paint.getTextBounds(playerOneName,0,playerOneName.length(),r);
-        canvas.drawText(playerOneName, squares[2].getRect().right , squares[1].getRect().height()/2 + r.height()/2, paint);
+        canvas.drawText(playerOneName, squareWidth*5 , squareHeight/2 + r.height()/2, paint);
         r = new Rect();
         paint.getTextBounds(playerTwoName,0,playerTwoName.length(),r);
-        canvas.drawText(playerTwoName, squares[2].getRect().right , squares[1].getRect().height()*9+ squares[1].getRect().height()/2 + r.height()/2, paint);
+        canvas.drawText(playerTwoName, (float)squareWidth*5 , (float) ((float)squareHeight*9.5), paint);
         paint.setColor(Color.RED);
         canvas.drawRect(squares[0].getRect(), paint);
         paint.setColor(Color.WHITE);
