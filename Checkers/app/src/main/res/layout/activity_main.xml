@@ -14,7 +14,7 @@
         android:id="@+id/startButton"
         android:onClick="onClickStartButton"
         android:textStyle="bold"
-        android:textColor="#ff0c0c0e"
+        android:textColor="@android:color/white"
         android:textColorHighlight="@color/highlighted_text_material_dark"
         android:textSize="@dimen/abc_text_size_title_material"
         android:background="#ff008000"

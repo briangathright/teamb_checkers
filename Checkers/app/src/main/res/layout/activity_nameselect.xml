@@ -30,6 +30,7 @@
         android:layout_gravity="center_horizontal"
         android:textStyle="bold"
         android:textSize="@dimen/abc_text_size_title_material"
-        android:background="#ff008000" />
+        android:background="#ff008000"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>

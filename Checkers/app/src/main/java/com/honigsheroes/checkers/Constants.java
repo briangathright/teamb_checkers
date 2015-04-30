@@ -41,6 +41,7 @@ public class Constants {
      * This enum specifies the game type.
      * HUMAN = two humans playing on the same device
      * AI = one human vs one AI
+     * REMOTE = two humans on separate devices (NOT IMPLEMENTED)
      */
     public enum GameType {
         HUMAN, AI, REMOTE

@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements CheckersSystem{
     }
 
     /**
-     * This method creates the Checkers Board
+     * This method creates the Checkers Board underlying structure
     */
 
     private void createSquares(){
@@ -111,7 +111,6 @@ public class MainActivity extends Activity implements CheckersSystem{
     /** Starts a game instance assuming there isn't one already.
      * This function returns the start of the game if its true,
      * and false if there is some error or issue
-     *
      * */
     @Override
     public boolean startGame() {
@@ -148,7 +147,9 @@ public class MainActivity extends Activity implements CheckersSystem{
         return false;
     }
 
-    //function to prompt confirmation to quit game
+    /**
+     * function to prompt confirmation to quit game
+     */
     private void quitGame() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Quit Game?");
@@ -175,30 +176,41 @@ public class MainActivity extends Activity implements CheckersSystem{
     }
 
 
-
-// this method implements the start button so that when it this button is clicked
-// it goes to the page where the player types are to be chosen
+    /**
+     * this method implements the start button so that when it is clicked
+     * it goes to the page where the player types are to be chosen
+     */
     public void onClickStartButton(View view) {
+        if (stateOfGame.equals(StateOfGame.PLAYING)) {
+            stateOfGame = StateOfGame.READY;
+            gameType = null; //or whatever we want to reset it
+        }
         setContentView(R.layout.players_types);
-
     }
 
-//this method implements the AI option of the player type to be played against the player
-
+    /**
+     * this method implements the AI option of the player type to be played against the player
+     */
     public void onClickAIGameButton(View view) {
         gameType =GameType.AI;
         setContentView(R.layout.select_names);
 
     }
-//this method implements the player type of two humans playing against each other
 
+
+    /**
+     * this method implements the player type of two humans playing against each other
+     */
     public void onClickHumanGameButton(View view) {
         gameType =GameType.HUMAN;
         setContentView(R.layout.activity_nameselect);
 
     }
 
-//this function implements the Continue button where the player names are entered 
+    /**
+     * this function implements the Continue button where the player names are entered
+     * it sets the players names to what was entered or defaults to Player 1 and Player 2
+     */
     public void onClickContinueButton(View view) {
 
 
@@ -236,15 +248,12 @@ public class MainActivity extends Activity implements CheckersSystem{
 
             hideKeyboard(this);
             startGame();
-
-
-
         }
-
-
-
-
     }
+
+    /**
+     * hides the keyboard if it is visible
+     */
     private static void hideKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.

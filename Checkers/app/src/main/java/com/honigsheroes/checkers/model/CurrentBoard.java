@@ -52,9 +52,8 @@ public class CurrentBoard {
     }
 /**
  *  this uses the board to check the legal moves on the board
- *
+ * Its rather verbose, but well documented
   */
-
     private void calculateLegalMoves() {
         for (int row = 0; row <= 7; row++) {
             System.err.println("Checking row: " + row);
@@ -380,6 +379,9 @@ public class CurrentBoard {
         return legalMovesRed;
     }
 
+    /**
+     * Actually performs the move on the underlying squares[] data structure, also checks for jump
+     */
     public void performMove(Move move) {
         System.err.println("Move " + move.getStartSquareIndex() + " " + move.getTargetSquareIndex() + " " + move.getMoveType() + " " + move.getIndexOfJumpedSquare());
         if (squares[move.getTargetSquareIndex()].getPiece() == null) {
@@ -396,6 +398,9 @@ public class CurrentBoard {
         calculateLegalMoves();
     }
 
+    /**
+     * This function removes the piece that was jumped, it uses the moves jumped index
+     */
     private void removePiece(Move move) {
         if (squares[move.getIndexOfJumpedSquare()].getPiece().getBelongsTo().getColor()==Constants.PlayerColor.BLACK){
             squares[move.getIndexOfJumpedSquare()].setPiece(null);
@@ -407,6 +412,12 @@ public class CurrentBoard {
         }
     }
 
+    /**
+     * This function is called everytime a move is made, it checks to see if the move results in a piece
+     * needing to become a king.
+     * @param squareIndex the square being looked at
+     * @return true if the piece can become a king, false otherwise
+     */
     public boolean convertToKing(int squareIndex) {
         if (squares[squareIndex].getPiece().getPieceType()!= Constants.PieceType.KING) {
             if (squares[squareIndex].getPiece().getBelongsTo().getColor()==Constants.PlayerColor.RED){

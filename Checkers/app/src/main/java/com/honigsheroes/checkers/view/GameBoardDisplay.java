@@ -59,6 +59,10 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
     }
 
 
+    /**
+     * Draws the pieces onto the board based on the underlying data structure
+     */
+
     private void drawPieces(Canvas canvas) {
         paint.setTextSize(squares[0].getRect().height()/2);
         paint.setTextAlign(Paint.Align.CENTER);
@@ -90,6 +94,10 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         drawDead(blackCount,redCount);
 
     }
+
+    /**
+     * Draws the scoreboard which displays the number of captured pieces under the board
+     */
     public void drawDead(int blackCount, int redCount){
         paint.setTextSize((float)(squares[0].getRect().height()/2.2));
 
@@ -125,7 +133,9 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         }
     }
 
-
+    /**
+     * draws the board which pieces will be drawn ontop of.
+     * */
     public void drawBoard(Canvas canvas) {
         int squareWidth = getWidth() / 10;
 
@@ -170,6 +180,9 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
 
     }
 
+    /**
+     * calls findSquareIndex to figure out if a square was touched
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         touchedSquareIndex = findSquareIndex(event);
@@ -177,6 +190,9 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         return false;
     }
 
+    /**
+     * figures out what square (if any) was touched and returns it
+     */
     public int findSquareIndex(MotionEvent e) {
         int x = (int) e.getX();
         int y = (int) e.getY();
@@ -189,6 +205,9 @@ public class GameBoardDisplay extends View implements GameBoardDisplayListener {
         return Constants.UNUSED_SQUARE;
     }
 
+    /**
+     * returns the last touched square
+     */
     public int getTouchedSquare() {
         return touchedSquareIndex;
     }

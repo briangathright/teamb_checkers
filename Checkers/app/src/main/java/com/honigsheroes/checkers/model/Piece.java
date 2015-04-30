@@ -4,8 +4,8 @@ import com.honigsheroes.checkers.Constants.PieceType;
 
 /**
  *
- * Pieces have an owner
- * and a current square
+ * Pieces have an owner, the player they belong to
+ * and a current square that they are on
  */
 public class Piece {
     private Player belongsTo;

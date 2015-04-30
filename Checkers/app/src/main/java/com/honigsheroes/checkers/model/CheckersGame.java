@@ -2,9 +2,13 @@ package com.honigsheroes.checkers.model;
 
 import com.honigsheroes.checkers.Constants;
 import com.honigsheroes.checkers.Constants.*;
+import com.honigsheroes.checkers.R;
 import com.honigsheroes.checkers.view.GameBoardDisplayListener;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Handler;
 import android.view.View;
@@ -45,15 +49,15 @@ public class CheckersGame{
     }
 
     /**
-     *
-     *
+     * tells the display associated with this model to update itself
      */
     private void updateDisplay() { //use getters and setters
         listener.update();
     }
 
-    //this function displayMessage takes string and displays the message
-
+    /**
+     * displays a given message as a toast
+     */
     private void displayMessage(String message) {
         if(mToast == null) {
             mToast = Toast.makeText(context.getApplicationContext(), message , Toast.LENGTH_SHORT);
@@ -66,6 +70,12 @@ public class CheckersGame{
         mToast.show();
 
     }
+
+    /**
+     * figures out what to do when a square is touched: create a move, highlight a square, try to perform am
+     * move etc.
+     * @param touchedSquareIndex
+     */
     public void onClick(int touchedSquareIndex) {
         if(touchedSquareIndex == 0) {
 
@@ -171,9 +181,6 @@ public class CheckersGame{
         updateDisplay();
         }
 
-
-
-
     public CurrentBoard getBoard() {
         return board;
     }
@@ -190,6 +197,9 @@ public class CheckersGame{
         this.move = move;
     }
 
+    /**
+     * function see if a move results in a follow up jump
+     */
     public boolean checkFollowUpJump(int squareIndex) {
         Square s = board.getSquares()[squareIndex];
         Piece p = s.getPiece();
@@ -211,6 +221,9 @@ public class CheckersGame{
         return false;
     }
 
+    /**
+     * Checks to see if a proposed move is legal
+     */
     public boolean checkIfLegalMove() {
         boolean legal = false;
 
@@ -260,6 +273,9 @@ public class CheckersGame{
         return legal;
     }
 
+    /**
+     * proposes a move, checks if its legal and if it is ask the board to perform it
+     */
     public void performMove(){
         if(checkIfLegalMove()) {
             board.performMove(move);
@@ -299,6 +315,9 @@ public class CheckersGame{
         }
     }
 
+    /**
+     * start the next turn, if AI have the AI move, if player wait for a proposed move
+     */
     public void startNextTurn() {
 
         if (playerTurn == PlayerColor.BLACK) {
@@ -309,6 +328,7 @@ public class CheckersGame{
             playerTurn = PlayerColor.BLACK;
         }
 
+        // make sure no one has won yet
         if(!checkWinConditions()) {
             move = new Move(-1, -1);
 
@@ -323,21 +343,51 @@ public class CheckersGame{
 
     }
 
-
+    /**
+     * function to see if a player has lost at the start of their turn
+     * If they have no pieces or legal moves and its their turn: they lose
+     */
     public boolean checkWinConditions() {
         if (playerTurn == PlayerColor.BLACK && (board.getNumBlackPieces()<=0 || board.getLegalMovesBlack().isEmpty())){
-            displayMessage(playerTwo.getName() + " is the winner!");
+           // displayMessage(playerTwo.getName() + " is the winner!");
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Game Over");
+            builder.setMessage(playerTwo.getName() + " is the winner!");
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Activity act = (Activity) context;
+                    act.setContentView(R.layout.activity_main);
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
             return true;
         }
         else if (playerTurn == PlayerColor.RED && (board.getNumRedPieces()<=0 || board.getLegalMovesRed().isEmpty())){
-            displayMessage(playerOne.getName() + " is the winner!");
+           // displayMessage(playerOne.getName() + " is the winner!");
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Game over");
+            builder.setMessage(playerOne.getName() + " is the winner!");
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Activity act = (Activity) context;
+                    act.setContentView(R.layout.activity_main);
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
             return true;
         }
         return false;
     }
 
     /**
-     * TODO: Brian
+     * Logic for AI movements; rule based
+     * AI will jump, or try to save its pieces if in danger, or try to king a piece, or try to
+     * not move to a dangerous square. Otherwise it will choose a random move
      */
     public void moveAI() {
         ArrayList<Move> allMoves = board.getLegalMovesRed();

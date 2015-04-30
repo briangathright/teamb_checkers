@@ -11,7 +11,7 @@
         android:id="@+id/button2"
         android:onClick="onClickAIGameButton"
         android:textStyle="bold"
-        android:textColor="#ff0c0c0e"
+        android:textColor="#ffffffff"
         android:textColorHighlight="@color/highlighted_text_material_dark"
         android:textSize="@dimen/abc_text_size_title_material"
         android:background="#ff008000"
@@ -28,7 +28,7 @@
         android:id="@+id/button3"
         android:onClick="onClickHumanGameButton"
         android:textStyle="bold"
-        android:textColor="#ff0c0c0e"
+        android:textColor="#ffffffff"
         android:textColorHighlight="@color/highlighted_text_material_dark"
         android:textSize="@dimen/abc_text_size_title_material"
         android:background="#ff008000"
@@ -45,6 +45,7 @@
         android:textSize="@dimen/abc_text_size_title_material"
         android:background="#ff008000"
         android:layout_below="@+id/button3"
-        android:layout_alignStart="@+id/button2" />
+        android:layout_alignStart="@+id/button2"
+        android:textColor="#ffffffff" />
 
 </RelativeLayout>

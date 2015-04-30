@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#ffd2b48c"
-    >
+    android:background="#ffd2b48c">
 
         <EditText
             android:layout_width="match_parent"
@@ -21,7 +20,7 @@
             android:clickable="true"
             android:onClick="onClickContinueButton"
             android:textStyle="bold"
-            android:textColor="#ff0c0c0e"
+            android:textColor="#ffffffff"
             android:textColorHighlight="@color/highlighted_text_material_dark"
             android:textSize="@dimen/abc_text_size_title_material"
             android:background="#ff008000"
